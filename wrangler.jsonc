@@ -1,11 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "axel-portfolio",
+  "name": "axeel-dev",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2026-09-26",
+  "compatibility_date": "2026-09-27",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
-  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "axel-portfolio" }],
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "axeel-dev" }],
+  "routes": [{ "pattern": "axeel.dev", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false,
   "observability": { "enabled": true },
   "keep_vars": true
 }

@@ -93,7 +93,7 @@ Create a Worker with a connected Git repository in Cloudflare’s dashboard and 
 | Deploy command | `npm run deploy` |
 | Node.js build version | `24` via `NODE_VERSION` |
 
-The deploy command uses the existing build; it does not rebuild. The Worker name is `axel-portfolio`. If you change it in `wrangler.jsonc`, also change the `WORKER_SELF_REFERENCE` service name to match.
+The deploy command uses the existing build; it does not rebuild. The Worker name is `axeel-dev`, matching the Cloudflare project. If you change it in `wrangler.jsonc`, also change the `WORKER_SELF_REFERENCE` service name to match.
 
 Set these in **both** the Worker’s build variables and its runtime Variables/Secrets:
 
