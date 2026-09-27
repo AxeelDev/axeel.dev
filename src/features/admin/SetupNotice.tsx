@@ -1,0 +1,4 @@
+import Link from "next/link";
+export function SetupNotice() {
+  return <main className="admin-shell"><Link href="/" className="wordmark">ax.</Link><div className="admin-title" style={{ marginTop: 45 }}><div><h1>Your content editor</h1><p>The public site is running with sample content. Connect your database to start editing.</p></div></div><div className="setup-note"><h2>Connect Supabase</h2><ol><li>Run the included migration and <code>supabase/seed.sql</code> in your portfolio project.</li><li>Add your URL and publishable key to <code>.env.local</code>, and set <code>CONTENT_SOURCE=supabase</code>.</li><li>Create your editor account and add its user ID to <code>portfolio_admins</code>.</li><li>Restart the app and open <Link href="/login">Sign in</Link>.</li></ol><p>The complete steps, including Cloudflare deployment, are in <code>docs/SETUP.md</code>.</p></div><Link href="/">Return to the site</Link></main>;
+}

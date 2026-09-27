@@ -1,0 +1,52 @@
+{
+  "name": "axel-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "predev": "node scripts/generate-icons.mjs",
+    "build": "next build",
+    "prebuild": "node scripts/generate-icons.mjs",
+    "start": "next start",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "preview:cloudflare": "opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare upload",
+    "check:worker": "wrangler deploy --dry-run --outdir .worker-check",
+    "icons": "node scripts/generate-icons.mjs",
+    "db:types": "supabase gen types typescript --linked --schema public > src/lib/supabase/database.types.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "lucide-react": "1.48.0",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@opennextjs/cloudflare": "1.20.6",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2",
+    "next-themes": "0.4.6",
+    "zod": "4.6.5",
+    "react-markdown": "10.1.0",
+    "remark-gfm": "4.0.1",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "5.9.3",
+    "simple-icons": "16.32.0",
+    "wrangler": "4.141.0",
+    "supabase": "2.118.0",
+    "@electric-sql/pglite": "0.5.8",
+    "tsx": "4.23.15"
+  }
+}
