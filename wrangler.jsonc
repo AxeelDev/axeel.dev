@@ -1,5 +1,5 @@
 {
-  // Trigger a fresh Workers build. This comment does not change the Worker.
+  // Trigger another Workers build. This comment does not change the Worker.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "axeel-dev",
   "main": ".open-next/worker.js",
