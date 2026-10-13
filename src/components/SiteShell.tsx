@@ -9,11 +9,15 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
     <Header />
     <main id="main" className="main-content">{children}</main>
     <footer className="site-footer">
-      <div><p>Always happy to talk.</p><div className="socials">
-        {settings.twitter_url && <a href={settings.twitter_url} target="_blank" rel="noreferrer">X / Twitter<ArrowUpRight size={14} aria-hidden="true" /></a>}
-        {settings.github_url && <a href={settings.github_url} target="_blank" rel="noreferrer">GitHub<ArrowUpRight size={14} aria-hidden="true" /></a>}
-      </div></div><span className="signoff">{settings.name}<span>From {settings.location}.</span></span>
+      <p className="footer-call">Building something, or just want to <em>talk shop</em>?</p>
+      <div className="footer-row">
+        <div className="socials">
+          {settings.github_url && <a href={settings.github_url} target="_blank" rel="noreferrer">GitHub<ArrowUpRight size={14} aria-hidden="true" /></a>}
+          {settings.twitter_url && <a href={settings.twitter_url} target="_blank" rel="noreferrer">X / Twitter<ArrowUpRight size={14} aria-hidden="true" /></a>}
+        </div>
+        <span className="signoff">{settings.name}<span>Made in {settings.location}.</span></span>
+      </div>
     </footer>
-    <div className="colophon"><span>A small corner of the internet.</span><Link href="/admin">Editor</Link></div>
+    <div className="colophon"><span>Next.js, Supabase &amp; Cloudflare. Drawings made in code.</span><Link href="/admin">Editor</Link></div>
   </div></div>;
 }

@@ -14,3 +14,4 @@ supabase/.branches/
 public/icons/
 .DS_Store
 coverage/
+.claude/

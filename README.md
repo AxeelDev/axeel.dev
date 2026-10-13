@@ -65,7 +65,7 @@ Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before extending the data mode
 
 ## Assets
 
-The forest image and `ax.` favicon carry over from concept 04. Project covers deliberately use typography until you upload real screenshots. Fonts are self-hosted through Fontsource; tool icons are generated locally from Simple Icons. Brand names and marks belong to their respective owners; inclusion does not imply endorsement. Review the Simple Icons package’s licensing and brand guidance when adding marks.
+The forest image and `ax.` favicon carry over from concept 04. Projects are illustrated with drawings generated in code (`src/features/projects/art`): bespoke ones for Casfyre, Casmine and MAZEC, and a unique contour map for any other project until it has an uploaded image. Fonts are self-hosted through Fontsource; tool icons are generated locally from Simple Icons. Brand names and marks belong to their respective owners; inclusion does not imply endorsement. Review the Simple Icons package’s licensing and brand guidance when adding marks.
 
 ## Verification
 
