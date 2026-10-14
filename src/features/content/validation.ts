@@ -42,6 +42,10 @@ export const settingsSchema = z.object({
   headline: z.string().trim().min(1).max(280), introduction: z.string().trim().max(1000), about: z.string().max(10000),
   github_url: safeLink, twitter_url: safeLink,
 }).strict();
+export const contactSchema = z.object({
+  email: z.email("Add an email address so I can reply.").max(254),
+  message: z.string().trim().min(1, "Write a message first.").max(5000, "Keep it under 5000 characters."),
+});
 export const collectionSchema = z.enum(["projects", "posts", "tools", "tool-groups", "settings"]);
 export const schemas = { projects: projectSchema, posts: postSchema, tools: toolSchema, "tool-groups": groupSchema, settings: settingsSchema };
 export const recordIdSchema = z.uuid();

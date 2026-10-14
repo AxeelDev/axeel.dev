@@ -27,10 +27,10 @@ const projectInputs: ProjectInput[] = [
   },
   {
     slug: "vaikusruum", title: "Vaikusruum", category: "Client website", status: "active", listing: "selected", period: "2026",
-    summary: "A website for Miina, a yoga teacher and musician. Calm on the outside, and she can change everything on it herself.",
+    summary: "A website for a yoga teacher and musician. Calm on the outside, and she can change everything on it herself.",
     thumbnail_url: "/projects/vaikusruum.jpg", thumbnail_alt: "The Vaikusruum homepage, with the name in a serif and the sun-like logo",
     website_url: "https://vaikusruum.ee/", source_url: "https://github.com/AxeelDev/Vaikusruum", stack: ["Next.js", "Supabase", "Vercel"],
-    body: "## What it is\n\nVaikusruum is an Estonian site for kundalini yoga, soft yoga and gong sessions. It has pages for the classes, private lessons, an FAQ, contact and feedback forms, and a page about Miina herself.\n\n## The part I care about\n\nMiina should never need me to change a sentence. So the whole site runs off its own admin panel, where she can edit texts, photos and even the typography without touching any code. I also spent a good amount of time on SEO, so the site actually shows up when people search for it or for her name, without any fake filler pages.",
+    body: "## What it is\n\nVaikusruum is an Estonian site for kundalini yoga, soft yoga and gong sessions. It has pages for the classes, private lessons, an FAQ, contact and feedback forms, and an about page.\n\n## The part I care about\n\nThe person running it should never need me to change a sentence. So the whole site runs off its own admin panel, where she can edit texts, photos and even the typography without touching any code. I also spent a good amount of time on SEO, so the site actually shows up when people search for it or for the teacher behind it, without any fake filler pages.",
   },
   {
     slug: "the-last-customer", title: "The Last Customer", category: "Horror game", status: "archived", listing: "selected", period: "2024",

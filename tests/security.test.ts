@@ -45,6 +45,22 @@ test("anonymous readers see published projects but never sample blog drafts", as
     await assert.rejects(db.query("insert into public.projects(slug,title) values ('intruder','Intruder')"), /permission denied|row-level security/i);
   });
 });
+test("anyone can send a contact message, but only editors can read or delete them", async () => {
+  await asRole("anon", null, async () => {
+    await db.query("insert into public.contact_messages(email, message) values ('someone@example.com', 'Hello')");
+    await assert.rejects(db.query("select * from public.contact_messages"), /permission denied/i);
+    await assert.rejects(db.query("insert into public.contact_messages(id, email, message) values (gen_random_uuid(), 'a@b.co', 'x')"), /permission denied/i);
+    await assert.rejects(db.query("insert into public.contact_messages(email, message) values ('not-an-email', 'x')"), /check constraint/i);
+  });
+  await asRole("authenticated", outsider, async () => {
+    assert.equal((await db.query("select * from public.contact_messages")).rows.length, 0);
+    assert.equal((await db.query("delete from public.contact_messages returning id")).rows.length, 0);
+  });
+  await asRole("authenticated", admin, async () => {
+    assert.equal((await db.query("select * from public.contact_messages")).rows.length, 1);
+    assert.equal((await db.query("delete from public.contact_messages returning id")).rows.length, 1);
+  });
+});
 test("signing in alone cannot grant editor membership or change content", async () => {
   await asRole("authenticated", outsider, async () => {
     assert.equal((await db.query("select * from public.portfolio_admins")).rows.length, 0);

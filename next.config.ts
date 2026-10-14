@@ -7,6 +7,8 @@ const config: NextConfig = {
   // Images are served directly from Supabase Storage or their original URL.
   // This avoids adding a paid image service to a small personal site.
   images: { unoptimized: true },
+  // Pages that were prefetched or visited stay in the browser for a few minutes, so moving around is instant.
+  experimental: { staleTimes: { dynamic: 120, static: 300 } },
   async headers() {
     return [
       { source: "/:path*", headers: [

@@ -24,6 +24,7 @@ export type SiteSettings = Timestamps & {
   headline: string; introduction: string; about: string;
   github_url: string | null; twitter_url: string | null;
 };
+export type ContactMessage = { id: string; email: string; message: string; created_at: string };
 export type ToolGroupWithTools = ToolGroup & { tools: Tool[] };
 export type Collection = "projects" | "posts" | "tools" | "tool-groups" | "settings";
 export type ContentRecord = Project | Post | Tool | ToolGroup | SiteSettings;

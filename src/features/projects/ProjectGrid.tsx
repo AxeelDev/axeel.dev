@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import type { Project } from "@/features/content/types";
 import { ProjectShot } from "./ProjectShot";
-import { statusLabel } from "./status";
 
 const linkLabel = (url: string) => /steampowered/.test(url) ? "On Steam" : /youtube/.test(url) ? "Watch it" : "Visit";
 
@@ -16,16 +15,15 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
     return <article className="entry" data-layout={layout} data-status={project.status} key={project.id} aria-labelledby={`entry-${project.slug}`}>
       <div className="entry-rule" aria-hidden="true"><span className="entry-no">{String(index + 1).padStart(2, "0")}<span>/{String(projects.length).padStart(2, "0")}</span></span><span className="entry-line" /><span className="entry-meta">{[project.category, project.period].filter(Boolean).join(" · ")}</span></div>
       <div className="entry-grid">
-        <Link className="entry-figure" href={href} tabIndex={-1} aria-hidden="true"><ProjectShot project={project} priority={index === 0} /></Link>
+        <Link prefetch className="entry-figure" href={href} tabIndex={-1} aria-hidden="true"><ProjectShot project={project} priority={index === 0} /></Link>
         <div className="entry-text">
           <div className="entry-head">
-            <p className="specimen-kicker"><span className="status-dot" />{statusLabel[project.status]}</p>
-            <h3 id={`entry-${project.slug}`}><Link href={href}>{project.title}</Link></h3>
+            <h3 id={`entry-${project.slug}`}><Link prefetch href={href}>{project.title}</Link></h3>
           </div>
           <div className="entry-body">
             <p>{project.summary}</p>
             <ul className="project-stack" aria-label="Built with">{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
-            <div className="project-actions"><Link href={href}>Read more<ArrowRight size={14} aria-hidden="true" /></Link>{project.website_url && <a href={project.website_url} target="_blank" rel="noreferrer">{linkLabel(project.website_url)}<ArrowUpRight size={14} aria-hidden="true" /></a>}{project.source_url && <a href={project.source_url} target="_blank" rel="noreferrer">Source<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
+            <div className="project-actions"><Link prefetch href={href}>Read more<ArrowRight size={14} aria-hidden="true" /></Link>{project.website_url && <a href={project.website_url} target="_blank" rel="noreferrer">{linkLabel(project.website_url)}<ArrowUpRight size={14} aria-hidden="true" /></a>}{project.source_url && <a href={project.source_url} target="_blank" rel="noreferrer">Source<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
           </div>
         </div>
       </div>
@@ -37,7 +35,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
 export function ProjectIndex({ projects }: { projects: Project[] }) {
   if (!projects.length) return null;
   return <ol className="index-list">{projects.map((project) => <li key={project.id}>
-    <Link className="index-row" href={`/projects/${project.slug}`}>
+    <Link prefetch className="index-row" href={`/projects/${project.slug}`}>
       <span className="index-year">{project.period.split(/\s/)[0] || "–"}</span>
       <span className="index-main"><strong>{project.title}</strong><span>{project.summary}</span></span>
       <span className="index-kind">{project.category}</span>

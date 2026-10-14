@@ -17,8 +17,8 @@ export default async function ProjectPage({ params }: Props) {
   const index = projects.findIndex((item) => item.id === project.id);
   const next = projects.length > 1 ? projects[(index + 1) % projects.length] : null;
   return <article>
-    <Link className="back-link" href="/projects"><ArrowLeft size={14} />Projects</Link>
-    <header className="page-intro detail-intro"><p className="specimen-kicker" data-status={project.status}><span className="status-dot" />{statusLabel[project.status]}<span className="kicker-sep">/</span>{project.category}</p><h1>{project.title}<span>.</span></h1><p>{project.summary}</p></header>
+    <Link prefetch className="back-link" href="/projects"><ArrowLeft size={14} />Projects</Link>
+    <header className="page-intro detail-intro"><h1>{project.title}<span>.</span></h1><p>{project.summary}</p></header>
     <figure className="detail-figure"><ProjectShot project={project} priority />{project.thumbnail_alt && <figcaption>{project.thumbnail_alt}</figcaption>}</figure>
     <dl className="spec-sheet">
       <div><dt>Status</dt><dd>{statusLabel[project.status]}</dd></div>
@@ -28,6 +28,6 @@ export default async function ProjectPage({ params }: Props) {
       {(project.website_url || project.source_url) && <div><dt>Links</dt><dd className="spec-links">{project.website_url && <a href={project.website_url} target="_blank" rel="noreferrer">{/steampowered/.test(project.website_url) ? "Steam" : /youtube/.test(project.website_url) ? "Video" : "Visit"}<ArrowUpRight size={13} aria-hidden="true" /></a>}{project.source_url && <a href={project.source_url} target="_blank" rel="noreferrer">Source<ArrowUpRight size={13} aria-hidden="true" /></a>}</dd></div>}
     </dl>
     <div className="article-body"><Markdown>{project.body}</Markdown></div>
-    {next && <Link className="next-project" href={`/projects/${next.slug}`}><span>Next project</span><strong>{next.title}<ArrowRight size={22} aria-hidden="true" /></strong><em>{next.summary}</em></Link>}
+    {next && <Link prefetch className="next-project" href={`/projects/${next.slug}`}><span>Next project</span><strong>{next.title}<ArrowRight size={22} aria-hidden="true" /></strong><em>{next.summary}</em></Link>}
   </article>;
 }

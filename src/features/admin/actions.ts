@@ -6,10 +6,12 @@ import { requireAdmin } from "@/lib/auth";
 import { sessionClient } from "@/lib/supabase/server";
 import { collectionSchema, loginSchema, schemas, recordIdSchema } from "@/features/content/validation";
 import { resourceConfig } from "./config";
+import { forgetContent } from "@/features/content/repository";
 
 export type SaveResult = { ok: true; id: string; updatedAt: string } | { ok: false; message: string; errors?: Record<string, string> };
 
 function refreshContent() {
+  forgetContent();
   revalidatePath("/", "layout");
   revalidatePath("/sitemap.xml");
 }
@@ -74,4 +76,13 @@ export async function signIn(_: { error: string }, form: FormData): Promise<{ er
 
 export async function signOut() {
   const client = await sessionClient(); await client.auth.signOut(); redirect("/login");
+}
+
+export async function deleteMessage(form: FormData) {
+  const id = recordIdSchema.safeParse(form.get("id"));
+  if (!id.success) return;
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.from("contact_messages").delete().eq("id", id.data);
+  if (error) console.error("Message delete failed", error.message);
+  revalidatePath("/admin/messages");
 }
