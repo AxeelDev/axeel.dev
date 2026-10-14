@@ -40,7 +40,7 @@ test("all public application tables have RLS enabled", async () => {
 });
 test("anonymous readers see published projects but never sample blog drafts", async () => {
   await asRole("anon", null, async () => {
-    assert.equal((await db.query("select id from public.projects")).rows.length, 3);
+    assert.equal((await db.query("select id from public.projects")).rows.length, 11);
     assert.equal((await db.query("select id from public.posts")).rows.length, 0);
     await assert.rejects(db.query("insert into public.projects(slug,title) values ('intruder','Intruder')"), /permission denied|row-level security/i);
   });

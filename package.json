@@ -19,6 +19,7 @@
     "upload": "opennextjs-cloudflare upload",
     "check:worker": "wrangler deploy --dry-run --outdir .worker-check",
     "icons": "node scripts/generate-icons.mjs",
+    "db:migrate": "supabase db push --linked",
     "db:types": "supabase gen types typescript --linked --schema public > src/lib/supabase/database.types.ts"
   },
   "dependencies": {

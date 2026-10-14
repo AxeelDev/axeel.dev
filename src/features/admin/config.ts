@@ -12,14 +12,16 @@ export const resourceConfig: Record<Collection, { title: string; singular: strin
   projects: { title: "Projects", singular: "project", table: "projects", fields: [
     { key: "title", label: "Project name", required: true, maxLength: 120 }, slug,
     { key: "summary", label: "Short description", type: "textarea", wide: true, required: true, maxLength: 280 },
-    { key: "thumbnail_url", label: "Thumbnail", type: "image", wide: true, help: "A landscape image works best. Leave it empty for the typographic cover." },
+    { key: "thumbnail_url", label: "Thumbnail", type: "image", wide: true, help: "A landscape screenshot works best (16:10 or wider)." },
     { key: "thumbnail_alt", label: "Thumbnail description", wide: true, maxLength: 300 },
     { key: "category", label: "Category", required: true, maxLength: 80 },
     { key: "status", label: "Status", type: "select", options: ["active", "experiment", "archived"] },
+    { key: "listing", label: "Listed under", type: "select", options: ["selected", "small"], help: "Selected work gets a large screenshot. Small things go in the compact index." },
+    { key: "period", label: "When", maxLength: 40, help: "For example 2024, or 2026 – now." },
     { key: "stack", label: "Tools or topics", type: "list", help: "Separate with commas. Up to 20 items." }, order,
     { key: "website_url", label: "Website", type: "url" }, { key: "source_url", label: "Source code", type: "url" }, body,
     { key: "featured", label: "Use the larger featured layout", type: "checkbox" }, published,
-  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
+  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], listing: "selected", period: "", sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
   posts: { title: "Writing", singular: "post", table: "posts", fields: [
     { key: "title", label: "Title", required: true, maxLength: 120 }, slug,
     { key: "excerpt", label: "Excerpt", type: "textarea", wide: true, required: true, maxLength: 320 },

@@ -1,29 +1,52 @@
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import type { Project } from "@/features/content/types";
-import { ProjectArt } from "./art/ProjectArt";
+import { ProjectShot } from "./ProjectShot";
 import { statusLabel } from "./status";
 
+const linkLabel = (url: string) => /steampowered/.test(url) ? "On Steam" : /youtube/.test(url) ? "Watch it" : "Visit";
+
+// Selected work. Every entry opens with its own numbered rule, so the list reads like a contents page.
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   if (!projects.length) return <p className="empty-note">There are no published projects yet.</p>;
   let side = 0;
-  return <div className="specimens">{projects.map((project, index) => {
+  return <div className="entries">{projects.map((project, index) => {
     const layout = project.featured ? "wide" : side++ % 2 ? "right" : "left";
     const href = `/projects/${project.slug}`;
-    return <article className="specimen" data-layout={layout} data-status={project.status} key={project.id}>
-      <span className="specimen-no" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-      <Link className="specimen-figure" href={href} tabIndex={-1} aria-hidden="true"><ProjectArt project={project} number={index + 1} priority={index === 0} /></Link>
-      <div className="specimen-text">
-        <div className="specimen-head">
-          <p className="specimen-kicker"><span className="status-dot" />{statusLabel[project.status]}<span className="kicker-sep">/</span>{project.category}</p>
-          <h3><Link href={href}>{project.title}</Link></h3>
-        </div>
-        <div className="specimen-body">
-          <p>{project.summary}</p>
-          <ul className="project-stack" aria-label="Built with">{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
-          <div className="project-actions"><Link href={href}>Read the notes<ArrowRight size={14} aria-hidden="true" /></Link>{project.website_url && <a href={project.website_url} target="_blank" rel="noreferrer">Visit {project.title}<ArrowUpRight size={14} aria-hidden="true" /></a>}{project.source_url && <a href={project.source_url} target="_blank" rel="noreferrer">Source<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
+    return <article className="entry" data-layout={layout} data-status={project.status} key={project.id} aria-labelledby={`entry-${project.slug}`}>
+      <div className="entry-rule" aria-hidden="true"><span className="entry-no">{String(index + 1).padStart(2, "0")}<span>/{String(projects.length).padStart(2, "0")}</span></span><span className="entry-line" /><span className="entry-meta">{[project.category, project.period].filter(Boolean).join(" · ")}</span></div>
+      <div className="entry-grid">
+        <Link className="entry-figure" href={href} tabIndex={-1} aria-hidden="true"><ProjectShot project={project} priority={index === 0} /></Link>
+        <div className="entry-text">
+          <div className="entry-head">
+            <p className="specimen-kicker"><span className="status-dot" />{statusLabel[project.status]}</p>
+            <h3 id={`entry-${project.slug}`}><Link href={href}>{project.title}</Link></h3>
+          </div>
+          <div className="entry-body">
+            <p>{project.summary}</p>
+            <ul className="project-stack" aria-label="Built with">{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
+            <div className="project-actions"><Link href={href}>Read more<ArrowRight size={14} aria-hidden="true" /></Link>{project.website_url && <a href={project.website_url} target="_blank" rel="noreferrer">{linkLabel(project.website_url)}<ArrowUpRight size={14} aria-hidden="true" /></a>}{project.source_url && <a href={project.source_url} target="_blank" rel="noreferrer">Source<ArrowUpRight size={14} aria-hidden="true" /></a>}</div>
+          </div>
         </div>
       </div>
     </article>;
   })}</div>;
 }
+
+// Smaller things, in a compact index: year, name, what it is, and a small screenshot.
+export function ProjectIndex({ projects }: { projects: Project[] }) {
+  if (!projects.length) return null;
+  return <ol className="index-list">{projects.map((project) => <li key={project.id}>
+    <Link className="index-row" href={`/projects/${project.slug}`}>
+      <span className="index-year">{project.period.split(/\s/)[0] || "–"}</span>
+      <span className="index-main"><strong>{project.title}</strong><span>{project.summary}</span></span>
+      <span className="index-kind">{project.category}</span>
+      <span className="index-thumb" aria-hidden="true">{project.thumbnail_url ? <img src={project.thumbnail_url} alt="" loading="lazy" decoding="async" /> : <span>{project.title.slice(0, 1)}</span>}</span>
+    </Link>
+  </li>)}</ol>;
+}
+
+export const splitProjects = (projects: Project[]) => ({
+  selected: projects.filter((project) => project.listing !== "small"),
+  small: projects.filter((project) => project.listing === "small"),
+});

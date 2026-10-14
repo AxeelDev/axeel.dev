@@ -3,7 +3,7 @@ import { cache } from "react";
 import { contentSource } from "@/lib/env";
 import { publicClient } from "@/lib/supabase/server";
 import { demoGroups, demoPosts, demoProjects, demoSettings, demoTools } from "./demo";
-import type { ToolGroupWithTools } from "./types";
+import type { Project, ToolGroupWithTools } from "./types";
 
 function check(error: { message: string } | null, label: string) {
   if (error) { console.error(`Content read failed: ${label}`, error.message); throw new Error("Content is temporarily unavailable."); }
@@ -17,16 +17,19 @@ export const getSettings = cache(async () => {
   return data;
 });
 
+// Databases from before the listing/period migration still render.
+const withDefaults = (project: Project): Project => ({ ...project, listing: project.listing ?? "selected", period: project.period ?? "" });
+
 export const getProjects = cache(async () => {
   if (contentSource() === "demo") return demoProjects;
   const { data, error } = await publicClient().from("projects").select("*").eq("published", true).order("sort_order").order("id").limit(100);
-  check(error, "projects"); return data ?? [];
+  check(error, "projects"); return (data ?? []).map(withDefaults);
 });
 
 export const getProject = cache(async (slug: string) => {
   if (contentSource() === "demo") return demoProjects.find((p) => p.slug === slug) ?? null;
   const { data, error } = await publicClient().from("projects").select("*").eq("slug", slug).eq("published", true).maybeSingle();
-  check(error, "project"); return data;
+  check(error, "project"); return data ? withDefaults(data) : null;
 });
 
 export const getPosts = cache(async (page = 1, size = 8) => {

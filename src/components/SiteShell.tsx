@@ -18,6 +18,6 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
         <span className="signoff">{settings.name}<span>Made in {settings.location}.</span></span>
       </div>
     </footer>
-    <div className="colophon"><span>Next.js, Supabase &amp; Cloudflare. Drawings made in code.</span><Link href="/admin">Editor</Link></div>
+    <div className="colophon"><span>Next.js, Supabase &amp; Cloudflare.</span><Link href="/admin">Editor</Link></div>
   </div></div>;
 }

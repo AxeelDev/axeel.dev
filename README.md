@@ -65,7 +65,7 @@ Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before extending the data mode
 
 ## Assets
 
-The forest image and `ax.` favicon carry over from concept 04. Projects are illustrated with drawings generated in code (`src/features/projects/art`): bespoke ones for Casfyre, Casmine and MAZEC, and a unique contour map for any other project until it has an uploaded image. Fonts are self-hosted through Fontsource; tool icons are generated locally from Simple Icons. Brand names and marks belong to their respective owners; inclusion does not imply endorsement. Review the Simple Icons package’s licensing and brand guidance when adding marks.
+The forest image and `ax.` favicon carry over from concept 04. Projects use real screenshots from `public/projects/`. Each project is listed either as selected work (large screenshot) or in the compact "Smaller things" index, set with the `listing` field in the editor. Run `npm run db:migrate` to apply new migrations to the linked Supabase project (`supabase db push`). Fonts are self-hosted through Fontsource; tool icons are generated locally from Simple Icons. Brand names and marks belong to their respective owners; inclusion does not imply endorsement. Review the Simple Icons package’s licensing and brand guidance when adding marks.
 
 ## Verification
 

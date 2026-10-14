@@ -17,6 +17,7 @@ export const projectSchema = z.object({
   title, slug, summary: z.string().trim().min(1).max(280), body: z.string().max(200000),
   category: z.string().trim().min(1).max(80), status: z.enum(["active", "experiment", "archived"]),
   ...imageFields, website_url: safeLink, source_url: safeLink, stack: list,
+  listing: z.enum(["selected", "small"]), period: z.string().trim().max(40),
   featured: z.boolean(), published: z.boolean(), sort_order: order,
 }).strict().superRefine((value, ctx) => {
   if (value.thumbnail_url && !value.thumbnail_alt) ctx.addIssue({ code: "custom", path: ["thumbnail_alt"], message: "Add a description of the thumbnail." });
