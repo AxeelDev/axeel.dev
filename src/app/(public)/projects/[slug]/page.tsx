@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject, getProjects } from "@/features/content/repository";
 import { ProjectShot } from "@/features/projects/ProjectShot";
+import { ProjectGallery } from "@/features/projects/ProjectGallery";
 import { statusLabel } from "@/features/projects/status";
 import { Markdown } from "@/components/Markdown";
 type Props = { params: Promise<{ slug: string }> };
@@ -19,7 +20,7 @@ export default async function ProjectPage({ params }: Props) {
   return <article>
     <Link prefetch className="back-link" href="/projects"><ArrowLeft size={14} />Projects</Link>
     <header className="page-intro detail-intro"><h1>{project.title}<span>.</span></h1><p>{project.summary}</p></header>
-    <figure className="detail-figure"><ProjectShot project={project} priority />{project.thumbnail_alt && <figcaption>{project.thumbnail_alt}</figcaption>}</figure>
+    <figure className="detail-figure"><ProjectGallery main={<ProjectShot project={project} priority />} images={[...(project.thumbnail_url ? [{ src: project.thumbnail_url, alt: project.thumbnail_alt || project.title }] : []), ...project.gallery]} caption={project.thumbnail_alt} /></figure>
     <dl className="spec-sheet">
       <div><dt>Status</dt><dd>{statusLabel[project.status]}</dd></div>
       <div><dt>What it is</dt><dd>{project.category}</dd></div>

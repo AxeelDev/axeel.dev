@@ -23,7 +23,7 @@ async function remember<T>(key: string, load: () => Promise<T>): Promise<T> {
 export function forgetContent() { remembered.clear(); }
 
 // Databases from before the listing/period migration still render.
-const withDefaults = (project: Project): Project => ({ ...project, listing: project.listing ?? "selected", period: project.period ?? "" });
+const withDefaults = (project: Project): Project => ({ ...project, listing: project.listing ?? "selected", period: project.period ?? "", gallery: project.gallery ?? [] });
 
 export const getSettings = cache(async () => {
   if (contentSource() === "demo") return demoSettings;

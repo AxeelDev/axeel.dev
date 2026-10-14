@@ -1,7 +1,7 @@
 import type { Collection } from "@/features/content/types";
 
 export type EditorField = {
-  key: string; label: string; type?: "text" | "textarea" | "markdown" | "checkbox" | "number" | "image" | "icon" | "datetime" | "list" | "group" | "select" | "url";
+  key: string; label: string; type?: "text" | "textarea" | "markdown" | "checkbox" | "number" | "image" | "icon" | "datetime" | "list" | "group" | "select" | "url" | "gallery";
   help?: string; wide?: boolean; required?: boolean; options?: string[]; maxLength?: number;
 };
 const slug: EditorField = { key: "slug", label: "URL slug", required: true, help: "Lowercase words separated by hyphens. Changing this changes the page’s URL.", maxLength: 96 };
@@ -14,6 +14,7 @@ export const resourceConfig: Record<Collection, { title: string; singular: strin
     { key: "summary", label: "Short description", type: "textarea", wide: true, required: true, maxLength: 280 },
     { key: "thumbnail_url", label: "Thumbnail", type: "image", wide: true, help: "A landscape screenshot works best (16:10 or wider)." },
     { key: "thumbnail_alt", label: "Thumbnail description", wide: true, maxLength: 300 },
+    { key: "gallery", label: "More screenshots", type: "gallery", wide: true, help: "One per line: image link | what it shows. Up to 12. Upload with the thumbnail field above, then copy its link here." },
     { key: "category", label: "Category", required: true, maxLength: 80 },
     { key: "status", label: "Status", type: "select", options: ["active", "experiment", "archived"] },
     { key: "listing", label: "Listed under", type: "select", options: ["selected", "small"], help: "Selected work gets a large screenshot. Small things go in the compact index." },
@@ -21,7 +22,7 @@ export const resourceConfig: Record<Collection, { title: string; singular: strin
     { key: "stack", label: "Tools or topics", type: "list", help: "Separate with commas. Up to 20 items." }, order,
     { key: "website_url", label: "Website", type: "url" }, { key: "source_url", label: "Source code", type: "url" }, body,
     { key: "featured", label: "Use the larger featured layout", type: "checkbox" }, published,
-  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], listing: "selected", period: "", sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
+  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], listing: "selected", period: "", gallery: [], sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
   posts: { title: "Writing", singular: "post", table: "posts", fields: [
     { key: "title", label: "Title", required: true, maxLength: 120 }, slug,
     { key: "excerpt", label: "Excerpt", type: "textarea", wide: true, required: true, maxLength: 320 },
