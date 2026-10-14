@@ -44,10 +44,11 @@ const projectInputs: ProjectInput[] = [
     body: "## The game\n\nYou work night shifts at a gas station. Your friend goes missing, and finding him takes you through liminal spaces, puzzles, and things that are pretending to be customers. It came out on Steam in October 2024.\n\n## Honestly\n\nIt was my first big project, and I worked on it for about half a year. It's rough in a lot of places and anything I'd make now would be way better. But that's kind of the point. It's where I actually learned game development: enemies, puzzles, choices, menus, lighting, and then the whole process of packaging a game and getting it released on Steam. Pretty much every mistake I made on it taught me something I still use.",
   },
   {
-    slug: "casmine", title: "Casmine", category: "Voxel game", status: "active", listing: "small", period: "2026 – now",
+    slug: "casmine", thumbnail_url: "/projects/casmine.jpg", thumbnail_alt: "A blocky savanna with wide, flat-topped trees under a blue sky", gallery: [{ src: "/projects/casmine-2.jpg", alt: "A spruce forest, generated from a different seed" }, { src: "/projects/casmine-3.jpg", alt: "The inventory and crafting screen" }],
+    title: "Casmine", category: "Voxel game", status: "active", listing: "small", period: "2026 – now",
     summary: "A voxel survival game going for the look and feel of Minecraft on the Xbox 360. Very early, mostly engine and world stuff so far.",
     stack: ["Godot", "Voxel Tools"],
-    body: "## The project\n\nCasmine is a voxel survival game I'm building in Godot. The goal is the feel of the old Xbox 360 edition of Minecraft: the light, the colours, the menus, the split-screen nights.\n\nIt's very early. Right now it's mostly world generation, rendering and the foundations for multiplayer, so there isn't much to show yet.",
+    body: "## The project\n\nCasmine is a voxel survival game I'm building in Godot. The goal is the feel of the old Xbox 360 edition of Minecraft: the light, the colours, the menus, the split-screen nights.\n\nIt's still early. Right now it's mostly world generation, rendering, the survival basics like crafting, and the foundations for multiplayer. Every world comes from a seed, so the forests, savannas and caves are different each time.",
   },
   {
     slug: "snaibo", gallery: [{ src: "/projects/snaibo-2.jpg", alt: "A script running, with its output repeated in the output log" }, { src: "/projects/snaibo-3.jpg", alt: "Creating a new .snaibo script file" }],
