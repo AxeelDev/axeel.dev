@@ -5,7 +5,7 @@ export type Project = Timestamps & {
   category: string; status: "active" | "experiment" | "archived";
   thumbnail_url: string | null; thumbnail_alt: string;
   website_url: string | null; source_url: string | null;
-  stack: string[]; listing: "selected" | "small"; period: string; gallery: GalleryImage[]; featured: boolean; published: boolean; sort_order: number;
+  stack: string[]; listing: "selected" | "small"; period: string; gallery: GalleryImage[]; lessons: string; featured: boolean; published: boolean; sort_order: number;
 };
 export type Post = Timestamps & {
   id: string; slug: string; title: string; excerpt: string; body: string;

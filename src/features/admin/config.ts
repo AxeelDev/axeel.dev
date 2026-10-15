@@ -21,8 +21,9 @@ export const resourceConfig: Record<Collection, { title: string; singular: strin
     { key: "period", label: "When", maxLength: 40, help: "For example 2024, or 2026 – now." },
     { key: "stack", label: "Tools or topics", type: "list", help: "Separate with commas. Up to 20 items." }, order,
     { key: "website_url", label: "Website", type: "url" }, { key: "source_url", label: "Source code", type: "url" }, body,
+    { key: "lessons", label: "What I learned", type: "textarea", wide: true, maxLength: 5000, help: "One point per line. Shown as its own section on the project page." },
     { key: "featured", label: "Use the larger featured layout", type: "checkbox" }, published,
-  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], listing: "selected", period: "", gallery: [], sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
+  ], defaults: { title: "", slug: "", summary: "", body: "", thumbnail_url: null, thumbnail_alt: "", category: "", status: "active", stack: [], listing: "selected", period: "", gallery: [], lessons: "", sort_order: 0, website_url: null, source_url: null, featured: false, published: false } },
   posts: { title: "Writing", singular: "post", table: "posts", fields: [
     { key: "title", label: "Title", required: true, maxLength: 120 }, slug,
     { key: "excerpt", label: "Excerpt", type: "textarea", wide: true, required: true, maxLength: 320 },

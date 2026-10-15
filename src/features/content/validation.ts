@@ -18,6 +18,7 @@ export const projectSchema = z.object({
   category: z.string().trim().min(1).max(80), status: z.enum(["active", "experiment", "archived"]),
   ...imageFields, website_url: safeLink, source_url: safeLink, stack: list,
   listing: z.enum(["selected", "small"]), period: z.string().trim().max(40),
+  lessons: z.string().max(5000),
   gallery: z.array(z.object({ src: safeImage.unwrap(), alt: z.string().trim().min(1, "Describe each screenshot.").max(300) }).strict()).max(12, "Up to 12 screenshots."),
   featured: z.boolean(), published: z.boolean(), sort_order: order,
 }).strict().superRefine((value, ctx) => {

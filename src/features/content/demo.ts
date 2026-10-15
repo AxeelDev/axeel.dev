@@ -9,10 +9,11 @@ export const demoSettings: SiteSettings = {
   github_url: "https://github.com/AxeelDev/", twitter_url: "https://x.com/axeeeeeel__",
 };
 
-type ProjectInput = Pick<Project, "slug" | "title" | "summary" | "body" | "category" | "status" | "listing" | "period" | "stack"> & Partial<Pick<Project, "thumbnail_url" | "thumbnail_alt" | "website_url" | "source_url" | "featured" | "gallery">>;
+type ProjectInput = Pick<Project, "slug" | "title" | "summary" | "body" | "category" | "status" | "listing" | "period" | "stack"> & Partial<Pick<Project, "thumbnail_url" | "thumbnail_alt" | "website_url" | "source_url" | "featured" | "gallery" | "lessons">>;
 const projectInputs: ProjectInput[] = [
   {
-    slug: "casfyre", gallery: [{ src: "/projects/casfyre-2.jpg", alt: "A service page with the seller, delivery time and three packages to choose from" }, { src: "/projects/casfyre-3.jpg", alt: "Browsing every category, from design to music and audio" }, { src: "/projects/casfyre-4.jpg", alt: "The help page explaining Crafts, Calls and Casefiles" }],
+    slug: "casfyre", lessons: "Write the decision down before the code. Payments especially: when to charge, when to refund, what actually counts as agreeing to something. I keep short decision records now, and they stop me from re-arguing the same thing a month later.\nHydration errors are usually just invalid HTML. One crash came down to a link inside another link in the mobile header. The browser quietly fixed it before React loaded, so the two trees didn't match.\nNot everything needs end-to-end encryption. Work messages have to be searchable, reportable and reviewable in a dispute, so I went with strict server-side access rules and left a clean spot to add encryption later where it makes sense.\nMoving hosting is its own project. Going from Vercel to Cloudflare Workers meant rethinking cron jobs, secrets and caching, not just changing the deploy command.",
+    gallery: [{ src: "/projects/casfyre-2.jpg", alt: "A service page with the seller, delivery time and three packages to choose from" }, { src: "/projects/casfyre-3.jpg", alt: "Browsing every category, from design to music and audio" }, { src: "/projects/casfyre-4.jpg", alt: "The help page explaining Crafts, Calls and Casefiles" }],
     title: "Casfyre", category: "Freelance marketplace", status: "active", listing: "selected", period: "2026 – now", featured: true,
     summary: "A freelance marketplace I'm building from scratch. You find someone, talk it through, agree on the work, pay, and get it delivered, all in one place.",
     thumbnail_url: "/projects/casfyre.jpg", thumbnail_alt: "The Casfyre homepage, with a large search asking what you need done",
@@ -20,7 +21,8 @@ const projectInputs: ProjectInput[] = [
     body: "## What it is\n\nCasfyre is a freelance marketplace for digital services, based in Estonia. Sellers publish service packages, buyers can post briefs, and you can message someone before ordering anything. There's no platform fee on top of the price, and if a seller doesn't accept an order within 24 hours, the buyer gets their money back.\n\n## The part I care about\n\nFreelance work usually falls apart in the boring places. Scope that was never written down, files spread over three different apps, nobody remembering what was agreed. So every order on Casfyre gets a Casefile: the scope, milestones, files, deliveries, revisions and decisions all stay attached to the work they belong to.\n\n## What I'm working on\n\nPretty much everything. Search over 400+ kinds of services, messaging, offers, fixed-price, milestone and hourly orders, payments, translations, the legal side. It's the biggest thing I've built so far and it's where most of my time goes right now.",
   },
   {
-    slug: "kanto", gallery: [{ src: "/projects/kanto-2.jpg", alt: "A thread with replies, sorted by best, with anonymous and signed-in posters" }, { src: "/projects/kanto-3.jpg", alt: "The community directory, sorted by recent activity" }],
+    slug: "kanto", lessons: "Building fast leaves holes. After about five weeks I ran a full audit on my own code and it found a stored XSS in search results and tables without row-level security. Both got fixed and tested, but I'd rather catch that stuff earlier now.\nSecurity is a lot of small, boring decisions. Script nonces per request, origin checks, what staff can see, how long data is kept. Writing them down in one security model is what stopped me from re-deciding them every week.\nAnonymous posting is harder than it sounds. People still need to delete their own posts and mods still need to moderate them, without anything linking a post back to an account in the open.\nDocs drift. One of the audit findings was simply that the docs said one thing and the code did another, so now docs get checked like code.",
+    gallery: [{ src: "/projects/kanto-2.jpg", alt: "A thread with replies, sorted by best, with anonymous and signed-in posters" }, { src: "/projects/kanto-3.jpg", alt: "The community directory, sorted by recent activity" }],
     title: "Kanto", category: "Forum", status: "archived", listing: "selected", period: "2026",
     summary: "A forum and imageboard mix. Communities like Reddit, anonymous posting like an imageboard, and a lot of moderation tools in between.",
     thumbnail_url: "/projects/kanto.jpg", thumbnail_alt: "Kanto's trending feed with threads from different communities, running locally with sample posts",
@@ -28,7 +30,8 @@ const projectInputs: ProjectInput[] = [
     body: "## What it is\n\nKanto is a forum where people make their own communities, each with its own rules, tags, layout and mod team. Threads and replies can be posted anonymously where the community allows it, and there's voting, mentions, notifications, DMs, follows and a personalised feed on top of that.\n\n## How it went\n\nI built it in about five weeks, close to 500 commits. A lot of that time went into the stuff nobody sees: moderation and reporting, rate limiting, privacy and data deletion, encrypted DMs, permissions, and a full admin panel. There's also a thing called micro-sites, where you can host a small single-file HTML/CSS/JS project in a sandbox right on the forum.\n\nIt's not online at the moment, but it taught me a ton about building something where other people's content and safety are part of the job.",
   },
   {
-    slug: "vaikusruum", gallery: [{ src: "/projects/vaikusruum-2.jpg", alt: "The soft yoga and gong page, with a photo of the gong" }, { src: "/projects/vaikusruum-3.jpg", alt: "Private lessons, each with its length and a contact link" }, { src: "/projects/vaikusruum-4.jpg", alt: "The FAQ, with answers that open one at a time" }],
+    slug: "vaikusruum", lessons: "A client's small change is usually a system problem. When some text boxes wouldn't take new lines, the real fix was one shared text system for every block on the site, not patching each box.\nThe editor matters more than the website. The person running the site uses the admin way more than I do, so most of my time went into making editing obvious: click a text, change it, done.\nPlan before touching a live client site. Start with a read-only look at what's there, write down what done means, and then change things in small steps.\nGood SEO doesn't need tricks. Proper titles, descriptions and structured data got the site showing up in searches without making a single fake page.",
+    gallery: [{ src: "/projects/vaikusruum-2.jpg", alt: "The soft yoga and gong page, with a photo of the gong" }, { src: "/projects/vaikusruum-3.jpg", alt: "Private lessons, each with its length and a contact link" }, { src: "/projects/vaikusruum-4.jpg", alt: "The FAQ, with answers that open one at a time" }],
     title: "Vaikusruum", category: "Client website", status: "active", listing: "selected", period: "2026",
     summary: "A website for a yoga teacher and musician. Calm on the outside, and she can change everything on it herself.",
     thumbnail_url: "/projects/vaikusruum.jpg", thumbnail_alt: "The Vaikusruum homepage, with the name in a serif and the sun-like logo",
@@ -36,15 +39,17 @@ const projectInputs: ProjectInput[] = [
     body: "## What it is\n\nVaikusruum is an Estonian site for kundalini yoga, soft yoga and gong sessions. It has pages for the classes, private lessons, an FAQ, contact and feedback forms, and an about page.\n\n## The part I care about\n\nThe person running it should never need me to change a sentence. So the whole site runs off its own admin panel, where she can edit texts, photos and even the typography without touching any code. I also spent a good amount of time on SEO, so the site actually shows up when people search for it or for the teacher behind it, without any fake filler pages.",
   },
   {
-    slug: "the-last-customer", gallery: [{ src: "/projects/the-last-customer-2.jpg", alt: "A choice between two doors in a dark hallway" }, { src: "/projects/the-last-customer-3.jpg", alt: "A bathroom wall with COME HERE written on it" }, { src: "/projects/the-last-customer-4.jpg", alt: "Pushing a shopping cart down a dim store aisle" }],
+    slug: "the-last-customer", lessons: "Finishing is a skill on its own. Getting from works on my machine to an actual Steam release (builds, store page, trailer, review) taught me more than any tutorial did.\nPlan how systems talk to each other early. I kept adding mechanics as I went and they got tangled, which is most of why the game feels rough. Now I think about structure before I start building.\nAtmosphere carries a horror game. The lighting, the VHS look and the pacing did more than any single mechanic.",
+    gallery: [{ src: "/projects/the-last-customer-2.jpg", alt: "A choice between two doors in a dark hallway" }, { src: "/projects/the-last-customer-3.jpg", alt: "A bathroom wall with COME HERE written on it" }, { src: "/projects/the-last-customer-4.jpg", alt: "Pushing a shopping cart down a dim store aisle" }],
     title: "The Last Customer", category: "Horror game", status: "archived", listing: "selected", period: "2024",
     summary: "A survival horror game on Steam about a gas station clerk whose customers aren't quite human. My first big project.",
     thumbnail_url: "/projects/the-last-customer.jpg", thumbnail_alt: "A dark gas station at night in The Last Customer, with the choice to explore or go to work",
     website_url: "https://store.steampowered.com/app/3249630/The_Last_Customer", stack: ["Unreal Engine 5"],
-    body: "## The game\n\nYou work night shifts at a gas station. Your friend goes missing, and finding him takes you through liminal spaces, puzzles, and things that are pretending to be customers. It came out on Steam in October 2024.\n\n## Honestly\n\nIt was my first big project, and I worked on it for about half a year. It's rough in a lot of places and anything I'd make now would be way better. But that's kind of the point. It's where I actually learned game development: enemies, puzzles, choices, menus, lighting, and then the whole process of packaging a game and getting it released on Steam. Pretty much every mistake I made on it taught me something I still use.",
+    body: "## The game\n\nYou work night shifts at a gas station. Your friend goes missing, and finding him takes you through liminal spaces, puzzles, and things that are pretending to be customers. It came out on Steam in October 2024.\n\n## Honestly\n\nIt was my first big project, and I worked on it for about half a year. It's rough in a lot of places and anything I'd make now would be way better. But that's kind of the point. It's where I actually learned game development: enemies, puzzles, choices, menus, lighting, and getting a whole game out the door. Pretty much every mistake I made on it taught me something I still use.",
   },
   {
-    slug: "casmine", thumbnail_url: "/projects/casmine.jpg", thumbnail_alt: "A blocky savanna with wide, flat-topped trees under a blue sky", gallery: [{ src: "/projects/casmine-2.jpg", alt: "A spruce forest, generated from a different seed" }, { src: "/projects/casmine-3.jpg", alt: "The inventory and crafting screen" }],
+    slug: "casmine", lessons: "Pin your tools. Casmine runs on one specific custom Godot build with Voxel Tools, locked by version and checksum, so it builds the same way every time.\nMeasure before guessing. I keep benchmark worlds and a capture tool, so I can compare frames and frame times before and after a change instead of going by feel.\nUse a real reference. Comparing my captures next to actual Xbox 360 screenshots shows what's off much faster than looking at my own game alone.",
+    thumbnail_url: "/projects/casmine.jpg", thumbnail_alt: "A blocky savanna with wide, flat-topped trees under a blue sky", gallery: [{ src: "/projects/casmine-2.jpg", alt: "A spruce forest, generated from a different seed" }, { src: "/projects/casmine-3.jpg", alt: "The inventory and crafting screen" }],
     title: "Casmine", category: "Voxel game", status: "active", listing: "small", period: "2026 – now",
     summary: "A voxel survival game going for the look and feel of Minecraft on the Xbox 360. Very early, mostly engine and world stuff so far.",
     stack: ["Godot", "Voxel Tools"],
@@ -101,7 +106,7 @@ const projectInputs: ProjectInput[] = [
 ];
 export const demoProjects: Project[] = projectInputs.map((project, index) => ({
   ...timestamps, id: `10000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
-  thumbnail_url: null, thumbnail_alt: "", website_url: null, source_url: null, featured: false, gallery: [],
+  thumbnail_url: null, thumbnail_alt: "", website_url: null, source_url: null, featured: false, gallery: [], lessons: "",
   ...project, published: true, sort_order: index,
 }));
 // Sample writing is shown only in demo mode. The database seed leaves it unpublished.
@@ -110,21 +115,45 @@ export const demoPosts: Post[] = [
   { ...timestamps, id: "20000000-0000-4000-8000-000000000002", slug: "notes-from-the-workbench", title: "Notes from the workbench", excerpt: "A second sample entry for shorter updates and unfinished ideas.", body: "This is another sample entry. It shows how shorter notes sit alongside longer articles.\n\nThere doesn’t have to be a grand conclusion. Sometimes an observation is enough.\n\n> Replace these sample posts with your own writing, then publish them when they’re ready.", cover_url: null, cover_alt: "", tags: ["Sample entry"], published: true, published_at: "2026-09-20T12:00:00Z" },
 ];
 export const demoGroups: ToolGroup[] = [
-  { ...timestamps, id: "30000000-0000-4000-8000-000000000001", label: "Building with", description: "The main ingredients in my web projects.", sort_order: 0, published: true },
-  { ...timestamps, id: "30000000-0000-4000-8000-000000000002", label: "Working in", description: "Tools for writing, keeping track, and shipping.", sort_order: 1, published: true },
-  { ...timestamps, id: "30000000-0000-4000-8000-000000000003", label: "Every day", description: "A couple of things that are usually open.", sort_order: 2, published: true },
-];
+  ["Building for the web", "What most of my websites and apps are made of right now."],
+  ["Data and accounts", "Where things get stored, and who's allowed to see them."],
+  ["Shipping it", "Hosting, payments, emails, and the Android shell."],
+  ["Keeping it working", "Tests and checks that run before anything goes live."],
+  ["Making games", "Where I started, and what I still come back to."],
+  ["Where I write code", "My editor, and the AI I pair with."],
+  ["Every day", "Usually open, whatever I'm working on."],
+].map(([label, description], index) => ({ ...timestamps, id: `30000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`, label, description, sort_order: index, published: true }));
 const toolInputs = [
-  [0, "Next.js", "https://nextjs.org/", "nextdotjs", "Web framework"],
-  [0, "React", "https://react.dev/", "react", "Interfaces"],
-  [0, "TypeScript", "https://www.typescriptlang.org/", "typescript", "Typed JavaScript"],
-  [0, "Supabase", "https://supabase.com/", "supabase", "Database and authentication"],
-  [0, "Cloudflare", "https://www.cloudflare.com/", "cloudflare", "Hosting"],
-  [1, "Cursor", "https://cursor.com/", "cursor", "Code editor"],
-  [1, "Git", "https://git-scm.com/", "git", "Version control"],
-  [1, "GitHub", "https://github.com/", "github", "Repositories"],
-  [2, "macOS", "https://www.apple.com/macos/", "macos", "On a MacBook Air"],
-  [2, "ChatGPT", "https://chatgpt.com/", null, "An extra pair of eyes"],
+  [0, "Next.js", "https://nextjs.org/", "nextdotjs", "Casfyre, Vaikusruum and this site"],
+  [0, "React", "https://react.dev/", "react", "Every interface I build"],
+  [0, "TypeScript", "https://www.typescriptlang.org/", "typescript", "In every web project, no exceptions"],
+  [0, "Astro", "https://astro.build/", "astro", "Kanto's server-rendered pages"],
+  [0, "Tailwind CSS", "https://tailwindcss.com/", "tailwindcss", "Styling in Casfyre and Kanto"],
+  [0, "Zod", "https://zod.dev/", "zod", "Checking every form and API input"],
+  [1, "Supabase", "https://supabase.com/", "supabase", "Database, sign-in and storage for most of my projects"],
+  [1, "PostgreSQL", "https://www.postgresql.org/", "postgresql", "Under all of it, with a lot of row-level security"],
+  [1, "Drizzle", "https://orm.drizzle.team/", "drizzle", "Kanto's schema and migrations"],
+  [1, "Better Auth", "https://www.better-auth.com/", "betterauth", "Kanto's accounts and sessions"],
+  [2, "Cloudflare Workers", "https://workers.cloudflare.com/", "cloudflareworkers", "Where Casfyre and this site run"],
+  [2, "Vercel", "https://vercel.com/", "vercel", "Kanto and Vaikusruum"],
+  [2, "Stripe", "https://stripe.com/", "stripe", "Casfyre's payments and seller payouts"],
+  [2, "Resend", "https://resend.com/", "resend", "Emails from Casfyre, Kanto and Vaikusruum"],
+  [2, "Capacitor", "https://capacitorjs.com/", "capacitor", "Wrapping Kanto as an Android app"],
+  [3, "Playwright", "https://playwright.dev/", null, "End-to-end tests for Casfyre and Vaikusruum"],
+  [3, "Vitest", "https://vitest.dev/", "vitest", "Unit tests in Vaikusruum"],
+  [3, "Oxlint", "https://oxc.rs/", "oxc", "Fast linting in Casfyre"],
+  [3, "GitHub Actions", "https://github.com/features/actions", "githubactions", "Checks on every push"],
+  [4, "Unreal Engine", "https://www.unrealengine.com/", "unrealengine", "The Last Customer and most of my older games"],
+  [4, "C++", "https://isocpp.org/", "cplusplus", "Gameplay code, and Snaibo"],
+  [4, "Godot", "https://godotengine.org/", "godotengine", "Casmine, on a custom build with Voxel Tools"],
+  [4, "Rider", "https://www.jetbrains.com/rider/", "rider", "For C++ and Unreal"],
+  [5, "Zed", "https://zed.dev/", "zedindustries", "My code editor"],
+  [5, "Claude Code", "https://claude.com/claude-code", "claudecode", "Pair programming and reviews before I ship"],
+  [5, "Codex", "https://openai.com/codex/", null, "A second opinion on bigger changes"],
+  [5, "Git", "https://git-scm.com/", "git", "Version control"],
+  [5, "GitHub", "https://github.com/", "github", "Repositories"],
+  [6, "macOS", "https://www.apple.com/macos/", "macos", "On a MacBook Air"],
+  [6, "ChatGPT", "https://chatgpt.com/", null, "An extra pair of eyes"],
 ] as const;
 export const demoTools: Tool[] = toolInputs.map(([group, name, url, icon_slug, notes], index) => ({
   ...timestamps, id: `40000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,

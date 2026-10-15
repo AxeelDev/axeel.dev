@@ -2,6 +2,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import * as icons from "simple-icons";
 
 const directory = new URL("../public/icons/", import.meta.url);
+// Icons sit on light chips, so near-white brand colours are drawn dark instead of disappearing.
+function readableFill(hex) {
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.72 ? "#263326" : `#${hex}`;
+}
 await mkdir(directory, { recursive: true });
 const catalogue = Object.values(icons)
   .filter((icon) => icon && typeof icon === "object" && "slug" in icon && "svg" in icon)
@@ -9,7 +14,7 @@ const catalogue = Object.values(icons)
 // Keep the entire catalogue out of the application/Worker JavaScript bundle.
 for (let i = 0; i < catalogue.length; i += 64) {
   await Promise.all(catalogue.slice(i, i + 64).map((icon) =>
-    writeFile(new URL(`${icon.slug}.svg`, directory), icon.svg.replace("<svg ", `<svg fill="#${icon.hex}" `))
+    writeFile(new URL(`${icon.slug}.svg`, directory), icon.svg.replace("<svg ", `<svg fill="${readableFill(icon.hex)}" `))
   ));
 }
 await writeFile(new URL("catalogue.json", directory), JSON.stringify(catalogue.map(({ title, slug }) => ({ title, slug }))));
