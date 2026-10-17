@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { contentSource } from "@/lib/env";
 import { publicClient } from "@/lib/supabase/server";
 import { contactSchema } from "@/features/content/validation";
+import { getDictionary } from "@/lib/i18n/server";
 
 export type ContactState = { status: "idle" | "sent" | "error"; message: string };
 
@@ -19,14 +20,19 @@ function limited(ip: string) {
 
 export async function sendMessage(_: ContactState, form: FormData): Promise<ContactState> {
   // Bots fill every field and submit instantly; people don't.
+  const t = (await getDictionary()).contact;
   const startedAt = Number(form.get("started"));
-  if (form.get("website") || !startedAt || Date.now() - startedAt < 2500) return { status: "sent", message: "Thanks, I’ll get back to you soon." };
+  if (form.get("website") || !startedAt || Date.now() - startedAt < 2500) return { status: "sent", message: t.thanks };
   const parsed = contactSchema.safeParse({ email: form.get("email"), message: form.get("message") });
-  if (!parsed.success) return { status: "error", message: parsed.error.issues[0]?.message ?? "Check the form and try again." };
+  if (!parsed.success) {
+    // The schema's messages are English; show the visitor's language instead.
+    const issue = parsed.error.issues[0];
+    return { status: "error", message: issue?.path[0] === "email" ? t.needEmail : issue?.code === "too_big" ? t.tooLong : issue?.path[0] === "message" ? t.needMessage : t.checkForm };
+  }
   const ip = (await headers()).get("cf-connecting-ip") ?? "local";
-  if (limited(ip)) return { status: "error", message: "That’s a few messages in a row. Try again in a little while." };
-  if (contentSource() === "demo") return { status: "error", message: "The form isn’t connected to a database in demo mode." };
+  if (limited(ip)) return { status: "error", message: t.rateLimited };
+  if (contentSource() === "demo") return { status: "error", message: t.demo };
   const { error } = await publicClient().from("contact_messages").insert(parsed.data);
-  if (error) { console.error("Contact message failed", error.message); return { status: "error", message: "Something went wrong on my side. Please try again." }; }
-  return { status: "sent", message: "Thanks, I’ll get back to you soon." };
+  if (error) { console.error("Contact message failed", error.message); return { status: "error", message: t.failed }; }
+  return { status: "sent", message: t.thanks };
 }

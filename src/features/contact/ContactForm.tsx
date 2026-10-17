@@ -3,18 +3,20 @@ import { useActionState, useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { sendMessage, type ContactState } from "./actions";
 
-export function ContactForm() {
+export type ContactLabels = { message: string; placeholder: string; email: string; send: string; sending: string };
+
+export function ContactForm({ labels }: { labels: ContactLabels }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendMessage, { status: "idle", message: "" });
   const [started, setStarted] = useState(0);
   useEffect(() => setStarted(Date.now()), []);
   if (state.status === "sent") return <p className="contact-done" role="status">{state.message}</p>;
   return <form className="contact-form" action={action}>
-    <label className="sr-only" htmlFor="contact-message">Message</label>
-    <textarea id="contact-message" name="message" placeholder="Write me something…" rows={3} maxLength={5000} required />
+    <label className="sr-only" htmlFor="contact-message">{labels.message}</label>
+    <textarea id="contact-message" name="message" placeholder={labels.placeholder} rows={3} maxLength={5000} required />
     <div className="contact-row">
-      <label className="sr-only" htmlFor="contact-email">Your email</label>
-      <input id="contact-email" name="email" type="email" placeholder="Your email" autoComplete="email" maxLength={254} required />
-      <button type="submit" disabled={pending}>{pending ? "Sending…" : "Send"}<ArrowRight size={15} aria-hidden="true" /></button>
+      <label className="sr-only" htmlFor="contact-email">{labels.email}</label>
+      <input id="contact-email" name="email" type="email" placeholder={labels.email} autoComplete="email" maxLength={254} required />
+      <button type="submit" disabled={pending}>{pending ? labels.sending : labels.send}<ArrowRight size={15} aria-hidden="true" /></button>
     </div>
     <input className="contact-trap" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
     <input type="hidden" name="started" value={started} />

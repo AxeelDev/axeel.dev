@@ -4,7 +4,10 @@ import { useTheme } from "next-themes";
 import { flushSync } from "react-dom";
 import { useEffect, useState, type MouseEvent } from "react";
 
-export function ThemeToggle() {
+export type ThemeLabels = { toLight: string; toDark: string; change: string };
+const english: ThemeLabels = { toLight: "Switch to light theme", toDark: "Switch to dark theme", change: "Change colour theme" };
+
+export function ThemeToggle({ labels = english }: { labels?: ThemeLabels }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [changing, setChanging] = useState(false);
@@ -27,7 +30,7 @@ export function ThemeToggle() {
     } catch { setTheme(next); }
     finally { setChanging(false); }
   }
-  return <button type="button" className="theme-toggle" onClick={toggle} disabled={!mounted || changing} aria-label={mounted ? `Switch to ${dark ? "light" : "dark"} theme` : "Change colour theme"} title="Change colour theme">
+  return <button type="button" className="theme-toggle" onClick={toggle} disabled={!mounted || changing} aria-label={mounted ? (dark ? labels.toLight : labels.toDark) : labels.change} title={labels.change}>
     <Sun className="theme-sun" size={18} aria-hidden="true" /><Moon className="theme-moon" size={18} aria-hidden="true" />
   </button>;
 }

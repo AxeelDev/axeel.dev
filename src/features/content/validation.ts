@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { translationSchema } from "./translations";
 
 export const safeLink = z.string().trim().max(2048).url().refine((value) => {
   try { const url = new URL(value); return url.protocol === "https:" && !url.username && !url.password; } catch { return false; }
@@ -20,14 +21,14 @@ export const projectSchema = z.object({
   listing: z.enum(["selected", "small"]), period: z.string().trim().max(40),
   lessons: z.string().max(5000),
   gallery: z.array(z.object({ src: safeImage.unwrap(), alt: z.string().trim().min(1, "Describe each screenshot.").max(300) }).strict()).max(12, "Up to 12 screenshots."),
-  featured: z.boolean(), published: z.boolean(), sort_order: order,
+  featured: z.boolean(), published: z.boolean(), sort_order: order, translations: translationSchema("projects"),
 }).strict().superRefine((value, ctx) => {
   if (value.thumbnail_url && !value.thumbnail_alt) ctx.addIssue({ code: "custom", path: ["thumbnail_alt"], message: "Add a description of the thumbnail." });
 });
 export const postSchema = z.object({
   title, slug, excerpt: z.string().trim().min(1).max(320), body: z.string().max(200000),
   cover_url: safeImage, cover_alt: z.string().trim().max(300), tags: list,
-  published: z.boolean(), published_at: z.iso.datetime({ offset: true }).nullable(),
+  published: z.boolean(), published_at: z.iso.datetime({ offset: true }).nullable(), translations: translationSchema("posts"),
 }).strict().superRefine((value, ctx) => {
   if (value.cover_url && !value.cover_alt) ctx.addIssue({ code: "custom", path: ["cover_alt"], message: "Add a description of the cover." });
   if (value.published && !value.published_at) ctx.addIssue({ code: "custom", path: ["published_at"], message: "Choose a publication date." });
@@ -36,13 +37,13 @@ export const postSchema = z.object({
 export const toolSchema = z.object({
   group_id: z.uuid(), name: z.string().trim().min(1).max(80), url: safeLink,
   icon_slug: z.string().max(100).regex(/^[a-z0-9-]+$/).nullable(), icon_url: safeImage,
-  notes: z.string().trim().max(280), sort_order: order, published: z.boolean(),
+  notes: z.string().trim().max(280), sort_order: order, published: z.boolean(), translations: translationSchema("tools"),
 }).strict();
-export const groupSchema = z.object({ label: z.string().trim().min(1).max(80), description: z.string().trim().max(280), sort_order: order, published: z.boolean() }).strict();
+export const groupSchema = z.object({ label: z.string().trim().min(1).max(80), description: z.string().trim().max(280), sort_order: order, published: z.boolean(), translations: translationSchema("tool-groups") }).strict();
 export const settingsSchema = z.object({
   name: title, first_name: z.string().trim().min(1).max(60), location: z.string().trim().min(1).max(100),
   headline: z.string().trim().min(1).max(280), introduction: z.string().trim().max(1000), about: z.string().max(10000),
-  github_url: safeLink, twitter_url: safeLink,
+  github_url: safeLink, twitter_url: safeLink, translations: translationSchema("settings"),
 }).strict();
 export const contactSchema = z.object({
   email: z.email("Add an email address so I can reply.").max(254),

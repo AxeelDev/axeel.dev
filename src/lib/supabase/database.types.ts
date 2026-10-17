@@ -19,7 +19,7 @@ export type Database = {
     };
     Views: { [_ in never]: never };
     Functions: {
-      portfolio_tool_icons: { Args: { names: string[] }; Returns: { name: string; icon_slug: string | null; icon_url: string | null }[] };
+      portfolio_stack_tools: { Args: { names: string[]; slugs: string[] }; Returns: { name: string; icon_slug: string | null; icon_url: string | null; url: string | null }[] };
     };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };

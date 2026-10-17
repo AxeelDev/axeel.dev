@@ -14,7 +14,7 @@ export default async function CollectionPage({ params, searchParams }: { params:
   if (collection === "settings") {
     const { data, error } = await supabase.from("site_settings").select("*").eq("id", 1).single();
     if (error || !data) throw new Error("The profile is missing. Apply supabase/seed.sql.");
-    const initial = Object.fromEntries(config.fields.map((field) => [field.key, data[field.key as keyof typeof data]]));
+    const initial = { ...Object.fromEntries(config.fields.map((field) => [field.key, data[field.key as keyof typeof data]])), translations: data.translations ?? {} };
     return <><div className="admin-title"><div><h1>Profile</h1><p>The introduction, personal details, and social links on your site.</p></div></div><ContentEditor collection="settings" id="1" initial={initial} updatedAt={data.updated_at} groups={[]} /></>;
   }
   const page = pageNumber((await searchParams).page), size = 20;

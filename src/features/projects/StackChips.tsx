@@ -1,14 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-
-// Tool names as they appear in project stacks, mapped to the locally generated Simple Icons.
-const icons: Record<string, string> = {
-  "Next.js": "nextdotjs", React: "react", TypeScript: "typescript", Astro: "astro", "Tailwind CSS": "tailwindcss",
-  Supabase: "supabase", PostgreSQL: "postgresql", Postgres: "postgresql", Drizzle: "drizzle", "Better Auth": "betterauth",
-  Stripe: "stripe", Cloudflare: "cloudflare", Vercel: "vercel", Resend: "resend", Godot: "godotengine",
-  "Unreal Engine 5": "unrealengine", "Unreal Engine": "unrealengine", "C++": "cplusplus",
-  HTML: "html5", CSS: "css", JavaScript: "javascript", Python: "python",
-};
+import { stackIcons, type StackTool } from "./stackIcons";
 
 type CatalogueIcon = { title: string; slug: string };
 const exact = (text: string) => text.trim().toLowerCase();
@@ -30,10 +22,10 @@ const fromCatalogue = (map: Map<string, string>, name: string) =>
   map.get(`=${exact(name)}`) ?? map.get(`#${loose(name)}`) ?? (loose(name).length >= 3 ? map.get(`~${loose(name)}`) : undefined);
 
 // Logo order: built-in mapping, then the icon library, then the matching tool from your own list, then the initial.
-export function StackChips({ items, ownIcons = {} }: { items: string[]; ownIcons?: Record<string, string> }) {
+// A chip links to that tool's website when your list has one.
+export function StackChips({ items, tools = {} }: { items: string[]; tools?: Record<string, StackTool> }) {
   const [library, setLibrary] = useState<Record<string, string>>({});
-  const missing = items.filter((item) => !icons[item]);
-  const missingKey = missing.join("|");
+  const missingKey = items.filter((item) => !stackIcons[item]).join("|");
   useEffect(() => {
     if (!missingKey) return;
     let live = true;
@@ -41,7 +33,8 @@ export function StackChips({ items, ownIcons = {} }: { items: string[]; ownIcons
     return () => { live = false; };
   }, [missingKey]);
   return <ul className="stack-chips">{items.map((item) => {
-    const src = icons[item] ? `/icons/${icons[item]}.svg` : library[item] ?? ownIcons[exact(item)];
-    return <li key={item}><span className="tool-icon" aria-hidden="true">{src ? <img src={src} alt="" width={15} height={15} loading="lazy" /> : <span>{item.slice(0, 1)}</span>}</span>{item}</li>;
+    const src = stackIcons[item] ? `/icons/${stackIcons[item]}.svg` : library[item] ?? tools[item]?.icon, url = tools[item]?.url;
+    const contents = <><span className="tool-icon" aria-hidden="true">{src ? <img src={src} alt="" width={15} height={15} loading="lazy" /> : <span>{item.slice(0, 1)}</span>}</span>{item}</>;
+    return <li key={item}>{url ? <a href={url} target="_blank" rel="noreferrer">{contents}</a> : contents}</li>;
   })}</ul>;
 }

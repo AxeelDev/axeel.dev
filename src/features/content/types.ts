@@ -1,26 +1,30 @@
+import type { Translations } from "./translations";
+
 export type Timestamps = { created_at: string; updated_at: string };
+// Estonian and German versions of the text fields; see translations.ts.
+type Translated = { translations: Translations };
 export type GalleryImage = { src: string; alt: string };
-export type Project = Timestamps & {
+export type Project = Timestamps & Translated & {
   id: string; slug: string; title: string; summary: string; body: string;
   category: string; status: "active" | "experiment" | "archived";
   thumbnail_url: string | null; thumbnail_alt: string;
   website_url: string | null; source_url: string | null;
   stack: string[]; listing: "selected" | "small"; period: string; gallery: GalleryImage[]; lessons: string; featured: boolean; published: boolean; sort_order: number;
 };
-export type Post = Timestamps & {
+export type Post = Timestamps & Translated & {
   id: string; slug: string; title: string; excerpt: string; body: string;
   cover_url: string | null; cover_alt: string; tags: string[];
   published: boolean; published_at: string | null;
 };
-export type ToolGroup = Timestamps & {
+export type ToolGroup = Timestamps & Translated & {
   id: string; label: string; description: string; sort_order: number; published: boolean;
 };
-export type Tool = Timestamps & {
+export type Tool = Timestamps & Translated & {
   id: string; group_id: string; name: string; url: string | null;
   icon_slug: string | null; icon_url: string | null; notes: string;
   sort_order: number; published: boolean;
 };
-export type SiteSettings = Timestamps & {
+export type SiteSettings = Timestamps & Translated & {
   id: number; name: string; first_name: string; location: string;
   headline: string; introduction: string; about: string;
   github_url: string | null; twitter_url: string | null;

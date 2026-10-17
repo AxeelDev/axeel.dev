@@ -74,6 +74,8 @@ Image uploads accept JPEG, PNG, WebP, and AVIF up to 5 MB. The media bucket is p
 
 Markdown is rendered with raw HTML disabled. Write image links in Markdown or use the thumbnail/cover upload fields. Use the preview tab to inspect formatting. Custom tool icons override catalogue icons; no icon uses the tool’s initial.
 
+Every text field also has optional Estonian and German versions: switch between English, Eesti and Deutsch at the top of the form. Leave a translation empty and visitors see the English text. In project stacks, a name that matches one of your tools (drafts included) borrows its icon and links to its website.
+
 The editor checks the record’s last update when saving, so two open tabs cannot silently overwrite each other. If it reports a newer version, copy your unsaved text before reopening the record.
 
 ## 6. Push the source to GitHub

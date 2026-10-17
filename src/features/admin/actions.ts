@@ -28,7 +28,7 @@ export async function saveContent(collectionInput: string, id: string | null, va
     const { supabase } = await requireAdmin();
     const collection = collectionSchema.parse(collectionInput);
     const parsed = schemas[collection].safeParse(values);
-    if (!parsed.success) return { ok: false, message: "Check the highlighted fields.", errors: Object.fromEntries(parsed.error.issues.map((issue) => [String(issue.path[0]), issue.message])) };
+    if (!parsed.success) return { ok: false, message: "Check the highlighted fields.", errors: Object.fromEntries(parsed.error.issues.map((issue) => [issue.path[0] === "translations" ? issue.path.join(".") : String(issue.path[0]), issue.message])) };
     const table = resourceConfig[collection].table;
     const key = collection === "settings" ? 1 : id ? recordIdSchema.parse(id) : null;
     if (id || collection === "settings") {

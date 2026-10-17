@@ -44,6 +44,12 @@ Database row types are defined in `src/lib/supabase/database.types.ts`. After li
 
 The editor configuration handles common scalar, Markdown, image, icon, date, list, and group fields. New content types need an explicit server-action insert path and table whitelist entry; there is deliberately no arbitrary client-controlled table access.
 
+## Languages
+
+The public site speaks English, Estonian and German without separate URLs. `src/lib/i18n/server.ts` decides the language once per request: the visitor's `lang` cookie (set by the header switcher) wins, otherwise the device's `Accept-Language` header picks Estonian or German when preferred over English, and everything else is English. Pages already render per request, so this adds no work, and the switcher refreshes the router so no page cached in the old language reappears.
+
+Interface text lives in `src/lib/i18n/dictionaries.ts`; client components receive only the strings they show. Content rows carry a `translations` JSON column (`{"et": {...}, "de": {...}}`), and the repository returns every record already localized, falling back to English field by field. `translationLimits` in `features/content/translations.ts` lists the translatable fields. Starter translations live in `features/content/demo.translations.ts`; after changing demo content, regenerate the seed with `node --import tsx scripts/build-seed.ts`.
+
 ## Assets, motion, and themes
 
 The forest is a shared background with an opaque reading surface. Design tokens and responsive rules live in `src/app/globals.css`. `next-themes` stores the appearance preference and resolves the system theme before hydration. The theme button uses a short View Transitions reveal when supported, with a direct switch otherwise. First-visit motion runs once per tab session; no artificial loading delay blocks content. Reduced-motion preferences disable movement.

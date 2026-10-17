@@ -13,9 +13,9 @@ function ToolLinks({ group, detailed }: { group: ToolGroupWithTools; detailed: b
   </div>)}</div>;
 }
 
-export function ToolGroups({ groups, detailed = false }: { groups: ToolGroupWithTools[]; detailed?: boolean }) {
+export function ToolGroups({ groups, empty, detailed = false }: { groups: ToolGroupWithTools[]; empty: string; detailed?: boolean }) {
   const visible = groups.filter((group) => group.tools.length);
-  if (!visible.length) return <p className="empty-note">A list is taking shape.</p>;
+  if (!visible.length) return <p className="empty-note">{empty}</p>;
   return <div className={detailed ? "tool-groups tool-groups-detailed" : "tool-groups"}>{visible.map((group) => {
     const label = <div className="tool-group-label"><h3 id={`group-${group.id}`}>{group.label}{detailed && <ChevronDown className="disclose-mark" size={15} aria-hidden="true" />}</h3>{detailed && group.description && <p>{group.description}</p>}</div>;
     const links = <ToolLinks group={group} detailed={detailed} />;

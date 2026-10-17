@@ -1,4 +1,5 @@
 import type { Post, Project, SiteSettings, Tool, ToolGroup } from "./types";
+import { groupTranslations, postTranslations, projectTranslations, settingsTranslations, toolTranslations } from "./demo.translations";
 
 const timestamps = { created_at: "2026-09-26T12:00:00Z", updated_at: "2026-09-26T12:00:00Z" };
 export const demoSettings: SiteSettings = {
@@ -6,7 +7,7 @@ export const demoSettings: SiteSettings = {
   headline: "I build websites, web apps and games, mostly the kind of things I'd actually want to use myself.",
   introduction: "Right now most of my days go into Casfyre, a freelance marketplace I'm building from scratch. Before the web stuff I spent a few years making games in Unreal Engine and C++, which is honestly where I learned most of what I know.",
   about: "Away from the screen I like hiking and being out in nature, and noticing the small stuff most people walk past. I also play the trombone and have a couple of small pets.\n\nI speak Estonian, English and German.",
-  github_url: "https://github.com/AxeelDev/", twitter_url: "https://x.com/axeeeeeel__",
+  github_url: "https://github.com/AxeelDev/", twitter_url: "https://x.com/axeeeeeel__", translations: settingsTranslations,
 };
 
 type ProjectInput = Pick<Project, "slug" | "title" | "summary" | "body" | "category" | "status" | "listing" | "period" | "stack"> & Partial<Pick<Project, "thumbnail_url" | "thumbnail_alt" | "website_url" | "source_url" | "featured" | "gallery" | "lessons">>;
@@ -107,13 +108,13 @@ const projectInputs: ProjectInput[] = [
 export const demoProjects: Project[] = projectInputs.map((project, index) => ({
   ...timestamps, id: `10000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
   thumbnail_url: null, thumbnail_alt: "", website_url: null, source_url: null, featured: false, gallery: [], lessons: "",
-  ...project, published: true, sort_order: index,
+  ...project, translations: projectTranslations[project.slug] ?? {}, published: true, sort_order: index,
 }));
 // Sample writing is shown only in demo mode. The database seed leaves it unpublished.
-export const demoPosts: Post[] = [
+export const demoPosts: Post[] = ([
   { ...timestamps, id: "20000000-0000-4000-8000-000000000001", slug: "a-place-for-project-notes", title: "A place for project notes", excerpt: "Small decisions, things I’ve learned, and what I’m making next.", body: "This is a sample entry, here so you can try the writing section before connecting a database. Replace it with your own words in the editor.\n\n## A few things this space can hold\n\n- Progress on an ongoing project\n- An interesting problem and how you solved it\n- Something you tried that didn’t work\n\nYou can use **Markdown**, add links, write code, and include images.\n\n```ts\nconst smallThings = [\"build\", \"notice\", \"improve\"];\n```\n\nA post can stay as a draft until you’re ready to publish it.", cover_url: null, cover_alt: "", tags: ["Sample entry"], published: true, published_at: "2026-09-26T12:00:00Z" },
   { ...timestamps, id: "20000000-0000-4000-8000-000000000002", slug: "notes-from-the-workbench", title: "Notes from the workbench", excerpt: "A second sample entry for shorter updates and unfinished ideas.", body: "This is another sample entry. It shows how shorter notes sit alongside longer articles.\n\nThere doesn’t have to be a grand conclusion. Sometimes an observation is enough.\n\n> Replace these sample posts with your own writing, then publish them when they’re ready.", cover_url: null, cover_alt: "", tags: ["Sample entry"], published: true, published_at: "2026-09-20T12:00:00Z" },
-];
+] satisfies Omit<Post, "translations">[]).map((post) => ({ ...post, translations: postTranslations[post.slug] ?? {} }));
 export const demoGroups: ToolGroup[] = [
   ["Building for the web", "What most of my websites and apps are made of right now."],
   ["Data and accounts", "Where things get stored, and who's allowed to see them."],
@@ -122,7 +123,7 @@ export const demoGroups: ToolGroup[] = [
   ["Making games", "Where I started, and what I still come back to."],
   ["Where I write code", "My editor, and the AI I pair with."],
   ["Every day", "Usually open, whatever I'm working on."],
-].map(([label, description], index) => ({ ...timestamps, id: `30000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`, label, description, sort_order: index, published: true }));
+].map(([label, description], index) => ({ ...timestamps, id: `30000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`, label, description, translations: groupTranslations[label] ?? {}, sort_order: index, published: true }));
 const toolInputs = [
   [0, "Next.js", "https://nextjs.org/", "nextdotjs", "Casfyre, Vaikusruum and this site"],
   [0, "React", "https://react.dev/", "react", "Every interface I build"],
@@ -157,5 +158,5 @@ const toolInputs = [
 ] as const;
 export const demoTools: Tool[] = toolInputs.map(([group, name, url, icon_slug, notes], index) => ({
   ...timestamps, id: `40000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
-  group_id: demoGroups[group].id, name, url, icon_slug, notes, icon_url: null, sort_order: index, published: true,
+  group_id: demoGroups[group].id, name, url, icon_slug, notes, icon_url: null, translations: toolTranslations[name] ?? {}, sort_order: index, published: true,
 }));

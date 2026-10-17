@@ -8,6 +8,8 @@ import { deleteContent, saveContent } from "./actions";
 import { MediaField } from "./MediaField";
 import { IconPicker } from "./IconPicker";
 import { MarkdownField } from "./MarkdownField";
+import { isTranslatable, type Translations } from "@/features/content/translations";
+import { localeNames, translatedLocales, type Locale, type TranslatedLocale } from "@/lib/i18n/config";
 
 function dateInput(value: unknown) {
   if (typeof value !== "string" || !value) return "";
@@ -21,9 +23,30 @@ export function ContentEditor({ collection, id, initial, updatedAt, groups }: {
   const [values, setValues] = useState(initial), [version, setVersion] = useState(updatedAt);
   const [dirty, setDirty] = useState(false), [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({}), [failed, setFailed] = useState(false), [pending, startTransition] = useTransition();
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false), [lang, setLang] = useState<Locale>("en");
+  const translations = (values.translations ?? {}) as Translations;
+  const translationKey = (key: string) => key === "gallery" ? "gallery_alts" : key;
+  const translatable = config.fields.filter((field) => isTranslatable(collection, translationKey(field.key)));
   useEffect(() => { if (!dirty) return; const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); }; window.addEventListener("beforeunload", warn); return () => window.removeEventListener("beforeunload", warn); }, [dirty]);
   function change(key: string, value: unknown) { setValues((old) => ({ ...old, [key]: value })); setDirty(true); setMessage(""); setErrors((old) => ({ ...old, [key]: "" })); }
+  function changeTranslation(locale: TranslatedLocale, key: string, value: string) {
+    setValues((old) => { const current = (old.translations ?? {}) as Translations; return { ...old, translations: { ...current, [locale]: { ...current[locale], [key]: value } } }; });
+    setDirty(true); setMessage(""); setErrors((old) => ({ ...old, [`translations.${locale}.${key}`]: "" }));
+  }
+  // Estonian and German versions of the text fields. Everything else is shared by all languages.
+  function translationField(locale: TranslatedLocale, field: (typeof config.fields)[number]) {
+    const key = translationKey(field.key), fieldId = `field-${locale}-${key}`, errorKey = `translations.${locale}.${key}`, value = translations[locale]?.[key] ?? "";
+    const english = field.key === "gallery" ? (Array.isArray(values.gallery) ? (values.gallery as { alt: string }[]).map((image) => image.alt).join("\n") : "") : String(values[field.key] ?? "");
+    const shared = { id: fieldId, lang: locale, "aria-invalid": Boolean(errors[errorKey]), "aria-describedby": errors[errorKey] ? `${fieldId}-error` : undefined };
+    return <div className={`field ${field.wide || field.type === "gallery" ? "field-wide" : ""}`} key={fieldId}>
+      <label htmlFor={fieldId}>{field.key === "gallery" ? "Screenshot descriptions" : field.label}</label>
+      {field.type === "markdown" ? <MarkdownField id={fieldId} value={value} onChange={(text) => changeTranslation(locale, key, text)} />
+        : field.type === "textarea" || field.type === "gallery" ? <textarea {...shared} rows={field.type === "gallery" ? 4 : undefined} maxLength={field.maxLength} placeholder={english} value={value} onChange={(event) => changeTranslation(locale, key, event.target.value)} />
+        : <input {...shared} maxLength={field.maxLength} placeholder={english} value={value} onChange={(event) => changeTranslation(locale, key, event.target.value)} />}
+      <small>{field.key === "gallery" ? "One per line, in the same order as the screenshots. " : ""}{english ? `English: ${english.length > 160 ? `${english.slice(0, 160)}…` : english}` : "The English field is empty."}</small>
+      {errors[errorKey] && <small id={`${fieldId}-error`} role="alert" style={{ color: "var(--danger)" }}>{errors[errorKey]}</small>}
+    </div>;
+  }
   return <form className="editor-form" onSubmit={(event) => {
     event.preventDefault(); setMessage(""); setErrors({}); setFailed(false);
     startTransition(async () => {
@@ -34,7 +57,12 @@ export function ContentEditor({ collection, id, initial, updatedAt, groups }: {
       else router.refresh();
     });
   }}>
-    {config.fields.map((field) => {
+    {translatable.length > 0 && <div className="field field-wide editor-languages" role="group" aria-label="Language">
+      {(["en", ...translatedLocales] as Locale[]).map((locale) => <button key={locale} type="button" className="button" aria-pressed={lang === locale} onClick={() => setLang(locale)}>{localeNames[locale]}{locale !== "en" && Object.keys(errors).some((key) => key.startsWith(`translations.${locale}.`) && errors[key]) ? " •" : ""}</button>)}
+      <small>{lang === "en" ? "Estonian and German versions are optional. Empty fields show the English text." : `Only text is translated. Leave a field empty to show the English version. Everything else is shared by all languages.`}</small>
+    </div>}
+    {lang !== "en" && translatable.map((field) => translationField(lang as TranslatedLocale, field))}
+    {lang === "en" && config.fields.map((field) => {
       const fieldId = `field-${field.key}`, value = values[field.key];
       const shared = { id: fieldId, required: field.required, "aria-invalid": Boolean(errors[field.key]), "aria-describedby": errors[field.key] ? `${fieldId}-error` : undefined };
       return <div className={`field ${field.wide ? "field-wide" : ""} ${field.type === "checkbox" ? "field-checkbox" : ""}`} key={field.key}>

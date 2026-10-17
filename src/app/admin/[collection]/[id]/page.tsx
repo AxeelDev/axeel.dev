@@ -18,7 +18,7 @@ export default async function EditorPage({ params }: { params: Promise<{ collect
   if (!fresh) {
     const { data, error } = await supabase.from(config.table).select("*").eq("id", route.id).maybeSingle();
     if (error) throw new Error("This item could not be loaded."); if (!data) notFound();
-    initial = Object.fromEntries(config.fields.map((field) => [field.key, data[field.key as keyof typeof data]])); updatedAt = data.updated_at;
+    initial = { ...Object.fromEntries(config.fields.map((field) => [field.key, data[field.key as keyof typeof data]])), translations: data.translations ?? {} }; updatedAt = data.updated_at;
   }
   return <><Link className="back-link" href={`/admin/${collection}`}>← {config.title}</Link><div className="admin-title"><div><h1>{fresh ? "New" : "Edit"} {config.singular}</h1><p>Save as a draft, or publish when it’s ready.</p></div></div><ContentEditor key={route.id} collection={collection} id={fresh ? null : route.id} initial={initial} updatedAt={updatedAt} groups={groups.data ?? []} /></>;
 }
