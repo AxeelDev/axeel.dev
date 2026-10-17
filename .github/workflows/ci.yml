@@ -6,6 +6,15 @@ on:
 permissions:
   contents: read
 jobs:
+  attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      # Every commit, so a force-push or rebased PR cannot slip an agent co-author back in.
+      - run: scripts/attribution.sh check HEAD
   validate:
     runs-on: ubuntu-latest
     env:

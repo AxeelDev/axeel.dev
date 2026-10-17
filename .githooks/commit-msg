@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Strips AI agent co-author trailers and footers, and refuses agent identities. See scripts/attribution.sh.
+set -euo pipefail
+root=$(git rev-parse --show-toplevel)
+"$root/scripts/attribution.sh" ident
+"$root/scripts/attribution.sh" strip "$1"
