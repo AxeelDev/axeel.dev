@@ -18,7 +18,9 @@ export type Database = {
       portfolio_admins: Table<{ user_id: string; created_at: string }, "user_id">;
     };
     Views: { [_ in never]: never };
-    Functions: { [_ in never]: never };
+    Functions: {
+      portfolio_tool_icons: { Args: { names: string[] }; Returns: { name: string; icon_slug: string | null; icon_url: string | null }[] };
+    };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
   };

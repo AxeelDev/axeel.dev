@@ -64,6 +64,21 @@ export const getPost = cache(async (slug: string) => {
   });
 });
 
+// Icons from your own tool list (drafts too), keyed by lowercased name, for stack items with no built-in logo.
+export const getToolIcons = cache(async (names: string[]): Promise<Record<string, string>> => {
+  const wanted = [...new Set(names.map((name) => name.trim().toLowerCase()).filter(Boolean))].sort().slice(0, 50);
+  if (!wanted.length) return {};
+  const toIcons = (rows: { name: string; icon_slug: string | null; icon_url: string | null }[]) =>
+    Object.fromEntries(rows.flatMap((row) => { const src = row.icon_url || (row.icon_slug ? `/icons/${row.icon_slug}.svg` : null); return src ? [[row.name.trim().toLowerCase(), src]] : []; }));
+  if (contentSource() === "demo") return toIcons(demoTools.filter((tool) => wanted.includes(tool.name.trim().toLowerCase())));
+  return remember(`tool-icons:${wanted.join("|")}`, async () => {
+    const { data, error } = await publicClient().rpc("portfolio_tool_icons", { names: wanted });
+    // Before the lookup migration is applied, stacks fall back to initials instead of failing the page.
+    if (error) { console.error("Content read failed: tool icons", error.message); return {}; }
+    return toIcons(data ?? []);
+  });
+});
+
 export const getToolGroups = cache(async (): Promise<ToolGroupWithTools[]> => {
   if (contentSource() === "demo") return demoGroups.map((group) => ({ ...group, tools: demoTools.filter((tool) => tool.group_id === group.id) }));
   return remember("tools", async () => {
