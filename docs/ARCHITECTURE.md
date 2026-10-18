@@ -1,5 +1,19 @@
 # Architecture and extension points
 
+## Layout
+
+| Directory | Responsibility |
+| --- | --- |
+| `src/app` | App Router pages, layouts, metadata, errors, and loading states |
+| `src/components` | Shared site shell, navigation, Markdown, theme, and motion |
+| `src/features/content` | Content types, validation, demo records, and data access |
+| `src/features/projects`, `blog`, `tools` | Public feature components |
+| `src/features/admin` | Editor configuration, forms, uploads, and server actions |
+| `src/lib` | Environment handling, Supabase clients, authorization, and formatting |
+| `supabase` | Versioned schema migration, seed data, and local CLI configuration |
+| `tests` | Authorization, storage policy, and validation checks |
+| `scripts` | Development entry point and local icon generation |
+
 ## Rendering and data access
 
 Next.js App Router owns routes and page metadata. Public pages are Server Components with a request-scoped, anonymous Supabase client. They never inherit an editor’s session, so signing in cannot expose drafts through a public page. React `cache()` deduplicates data reads within a render, not across users or requests. Supabase fetches opt out of persistent caching.
@@ -52,6 +66,8 @@ Interface text lives in `src/lib/i18n/dictionaries.ts`; client components receiv
 
 ## Assets, motion, and themes
 
+The forest image and `ax.` favicon carry over from concept 04. Projects use real screenshots from `public/projects/`. Fonts are self-hosted through Fontsource. Brand names and marks belong to their respective owners; inclusion does not imply endorsement. Review the Simple Icons package’s licensing and brand guidance when adding marks.
+
 The forest is a shared background with an opaque reading surface. Design tokens and responsive rules live in `src/app/globals.css`. `next-themes` stores the appearance preference and resolves the system theme before hydration. The theme button uses a short View Transitions reveal when supported, with a direct switch otherwise. First-visit motion runs once per tab session; no artificial loading delay blocks content. Reduced-motion preferences disable movement.
 
 Icons are generated from the installed `simple-icons` version by `scripts/generate-icons.mjs`. The browser loads the search catalogue only when needed in the editor. Public pages request only their selected local SVGs. Uploaded raster icons or external HTTPS images support tools outside the catalogue. Uploaded SVGs are excluded, while the generated package SVGs are trusted source assets.
@@ -62,4 +78,4 @@ Icons are generated from the installed `simple-icons` version by `scripts/genera
 
 `tests/validation.test.ts` covers unsafe URLs, required alt text, publication requirements, unknown-field rejection, arbitrary tools, and upload limits. TypeScript and the actual OpenNext build check the application integrations. The GitHub workflow repeats the tests and Worker build without hosted credentials.
 
-After connecting a real Supabase project, verify login, image upload, save, publish, and signed-out visibility against that project. No external backend is silently provisioned or assumed by the source.
+The production Next.js/OpenNext build and a Wrangler dry run are part of CI, along with those automated checks. Browser checks cover the public pages, responsive layouts, theme switching, and the unconfigured editor. After connecting a real Supabase project, verify login, image upload, save, publish, and signed-out visibility against that project. Hosted Auth, Storage uploads, and the Cloudflare deployment are only confirmed once your own project is connected. No external backend is silently provisioned or assumed by the source.

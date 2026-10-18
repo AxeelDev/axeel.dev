@@ -80,8 +80,16 @@ export const getStackTools = cache(async (items: string[]): Promise<Record<strin
       if (error) { console.error("Content read failed: stack tools", error.message); return []; }
       return data ?? [];
     });
+  const exactMatch = (item: string) => rows.find((tool) => tool.name.trim().toLowerCase() === item.trim().toLowerCase()) ?? (stackIcons[item] ? rows.find((tool) => tool.icon_slug === stackIcons[item]) : undefined);
+  // Failing that, a published tool from the same family: "Cloudflare" finds "Cloudflare Workers", by its name or its logo (cloudflare → cloudflareworkers).
+  const unmatched = items.filter((item) => !exactMatch(item));
+  const family: StackRow[] = unmatched.length ? (await getToolGroups()).flatMap((group) => group.tools) : [];
+  const familyMatch = (item: string) => {
+    const name = item.trim().toLowerCase(), slug = stackIcons[item];
+    return family.find((tool) => tool.name.trim().toLowerCase().startsWith(`${name} `)) ?? (slug ? family.find((tool) => tool.icon_slug?.startsWith(slug)) : undefined);
+  };
   return Object.fromEntries(items.flatMap((item) => {
-    const row = rows.find((tool) => tool.name.trim().toLowerCase() === item.trim().toLowerCase()) ?? (stackIcons[item] ? rows.find((tool) => tool.icon_slug === stackIcons[item]) : undefined);
+    const row = exactMatch(item) ?? familyMatch(item);
     return row ? [[item, { icon: iconOf(row), url: row.url ?? undefined }]] : [];
   }));
 });

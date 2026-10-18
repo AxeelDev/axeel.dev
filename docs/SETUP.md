@@ -62,7 +62,7 @@ When `CONTENT_SOURCE=supabase`, database errors show an error state rather than 
 
 | Editor page | What to change |
 | --- | --- |
-| Projects | Title, slug, summary, thumbnail and alt text, category, stack, links, project Markdown, order, featured layout, visibility |
+| Projects | Title, slug, summary, thumbnail and alt text, category, stack, links, project Markdown, order, featured layout, visibility. “Listed under” chooses selected work (a large screenshot) or the compact Smaller things index |
 | Writing | Title, slug, excerpt, optional cover and alt text, Markdown, topics, publication time, visibility |
 | Tools | Name, group, optional website, catalogue or custom icon, notes, order, visibility |
 | Tool groups | Arbitrary category label, description, order, visibility |
@@ -123,6 +123,24 @@ npm run preview:cloudflare
 The example uses demo mode. For database-backed preview, use matching Supabase values in `.env.local` and `.dev.vars`, set `CONTENT_SOURCE=supabase`, and rebuild. `NEXTJS_ENV=development` tells OpenNext’s preview to use the development environment files. Follow the local URL printed by Wrangler.
 
 `npm run check:worker` only bundles and reports sizes; it never deploys. `npm run deploy` performs an actual deployment and requires your Cloudflare account authentication.
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Local Next.js development |
+| `npm run typecheck` | Generate route types and check TypeScript |
+| `npm test` | Validate content rules and real PostgreSQL RLS policies with PGlite |
+| `npm run build` | Build Next.js |
+| `npm run build:cloudflare` | Build Next.js and its Cloudflare Worker |
+| `npm run check:worker` | Bundle and report size without deploying |
+| `npm run preview:cloudflare` | Run the built Worker locally |
+| `npm run deploy` | Deploy the already-built Worker to your Cloudflare account |
+| `npm run icons` | Regenerate local icons and the editor catalogue |
+| `npm run db:migrate` | Apply new migrations to the linked Supabase project (`supabase db push`) |
+| `npm run db:types` | Regenerate `src/lib/supabase/database.types.ts` from the linked project |
+
+Icon generation also runs automatically before development and builds. `public/icons` is generated and left out of Git. Keep `package-lock.json` committed, and install dev dependencies during builds.
 
 ## Reference documentation
 
