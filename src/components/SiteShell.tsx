@@ -14,7 +14,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
   const [settings, t, locale] = await Promise.all([getSettings(), getDictionary(), getLocale()]);
   const [callBefore, callAfter] = t.shell.call.split("{em}");
   const [timeBefore, timeAfter] = fill(t.shell.localTime, { location: settings.location }).split("{time}");
-  return <div className="landscape"><a className="skip-link" href="#main">{t.shell.skip}</a><div className="sheet">
+  return <div className="landscape"><a className="skip-link" href="#main">{t.shell.skip}</a><div className="paper"><div className="sheet">
     <Header locale={locale} labels={{ ...t.nav, theme: t.theme }} />
     <main id="main" className="main-content">{children}</main>
     <footer className="site-footer" id="contact">
@@ -25,7 +25,7 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       <div className="contact-main">
         <ContactForm labels={{ message: t.contact.message, placeholder: t.contact.placeholder, email: t.contact.email, send: t.contact.send, sending: t.contact.sending }} />
         <div className="contact-meta">
-          <span className="contact-time"><Clock size={15} aria-hidden="true" /><span className="sr-only">{t.shell.timeLabel}: </span>{timeBefore}<LocalTime />{timeAfter}</span>
+          <span className="contact-time"><Clock size={15} aria-hidden="true" /><span><span className="sr-only">{t.shell.timeLabel}: </span>{timeBefore}<LocalTime />{timeAfter}</span></span>
           <span className="socials">
             {settings.github_url && <a href={settings.github_url} target="_blank" rel="noreferrer"><BrandIcon name="github" />GitHub</a>}
             {settings.twitter_url && <a href={settings.twitter_url} target="_blank" rel="noreferrer"><BrandIcon name="x" />X</a>}
@@ -34,5 +34,5 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
       </div>
     </footer>
     <div className="colophon"><span>{t.shell.colophon}</span><Link href="/admin">{t.shell.editor}</Link></div>
-  </div></div>;
+  </div></div></div>;
 }

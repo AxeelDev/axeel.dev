@@ -4,7 +4,7 @@ import type { Locale } from "./config";
 // Interface text for the public site. The editor stays in English.
 const en = {
   meta: { title: "Axel Püss — developer", description: "A developer in Estonia. Websites, tools, game experiments, and notes along the way.", projects: "Projects", writing: "Writing", uses: "Uses", projectNotFound: "Project not found", postNotFound: "Post not found" },
-  nav: { home: "Axel, home", main: "Main navigation", work: "Work", writing: "Writing", uses: "Uses", language: "Language" },
+  nav: { home: "Axel, home", main: "Main navigation", work: "Work", writing: "Writing", uses: "Tools", language: "Language" },
   theme: { toLight: "Switch to light theme", toDark: "Switch to dark theme", change: "Change colour theme" },
   shell: { skip: "Skip to content", call: "I read every message. {em}", callEm: "Say hi.", callNote: "Whether it’s about work, a project, or something I’ve built.", localTime: "{location}, {time}", timeLabel: "Local time", colophon: "Next.js, Supabase & Cloudflare.", editor: "Editor" },
   home: { greeting: "Hi, I’m {name}", seeWork: "See what I’ve made", getInTouch: "Get in touch", madeTitle: "Things I’ve made", allProjects: "All projects", smallerOne: "+ 1 smaller thing", smallerOther: "+ {count} smaller things", smallerNote: "One-day builds, experiments, and things I made to learn something", writingTitle: "From the notebook", allWriting: "All writing", toolsTitle: "What I build with", fullList: "The full list", aboutTitle: "Away from the screen" },
