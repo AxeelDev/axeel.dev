@@ -4,6 +4,7 @@
 import { writeFile } from "node:fs/promises";
 
 const LENGTH = 640; // tile length along the edge; every wave fits a whole number of times, so tiles repeat seamlessly
+const STEP = 2;
 
 function random(seed) {
   return () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
@@ -29,27 +30,24 @@ function edge({ seed, depth, contour: [c0, c1], fringe: [f0, f1], rim: [r0, r1],
   const contour = scale(noise(rand, shape), c0, c1); // where solid paper starts, measured in from the outside
   const fringe = scale(noise(rand, { from: 3, beta: 0.7 }), f0, f1); // thin, translucent paper past the contour
   const rim = scale(noise(rand, { from: 2, beta: 1 }), r0, r1); // exposed lighter core inside the contour
-  const line = (ys) => ys.map((y, x) => [x, y]);
+  const line = (ys) => ys.flatMap((y, x) => (x % STEP ? [] : [[x, y]])); // every STEP px is plenty once the fibres add the fine detail
   const outer = line(contour.map((y, x) => Math.max(0.2, y - fringe[x])));
   const body = line(contour);
   const rimMid = line(contour.map((y, x) => y + rim[x] * 0.55));
   const rimIn = line(contour.map((y, x) => y + rim[x]));
   const band = (a, b) => [...a, ...[...b].reverse()];
-  const fibres = Array.from({ length: count }, () => {
-    const x = 4 + rand() * (LENGTH - 8), y = outer[Math.round(x)][1] + 0.3;
+  const toDepth = (a) => [...a, [LENGTH, depth], [0, depth]];
+  // Fibres share three opacity levels, so each level is a single path instead of one element per fibre.
+  const fibres = [[], [], []];
+  for (let i = 0; i < count; i++) {
+    const x = 4 + rand() * (LENGTH - 8), y = Math.max(0.2, contour[Math.round(x)] - fringe[Math.round(x)]) + 0.3;
     const length = l0 + rand() ** 2 * (l1 - l0), lean = (rand() - 0.5) * length * 1.4;
-    return { d: [[x, y], [x + lean * 0.3 + (rand() - 0.5), y - length * 0.6], [x + lean, y - length]], width: 0.2 + rand() * 0.35, opacity: 0.3 + rand() * 0.45 };
-  });
+    fibres[Math.floor(rand() * 3)].push([[x, y], [x + lean * 0.3 + (rand() - 0.5), y - length * 0.6], [x + lean, y - length]]);
+  }
   return {
-    mask: [
-      { points: band(outer, body), opacity: 0.42 },
-      { points: [...body, [LENGTH, depth], [0, depth]], opacity: 1 },
-      ...fibres.map((f) => ({ curve: f.d, width: f.width, opacity: f.opacity })),
-    ],
-    rim: [
-      { points: band(body, rimMid), opacity: 0.85 },
-      { points: band(rimMid, rimIn), opacity: 0.4 },
-    ],
+    // The fringe runs to the paper side too; the solid body covers it there, so only the strip past the contour stays see-through.
+    mask: [{ points: toDepth(outer), opacity: 0.42 }, { points: toDepth(body), opacity: 1 }, ...fibres.map((curves, i) => ({ curves, opacity: 0.35 + i * 0.15 }))],
+    rim: [{ points: band(body, rimIn), opacity: 0.45 }, { points: band(body, rimMid), opacity: 0.6 }],
   };
 }
 
@@ -64,9 +62,10 @@ const turns = {
 function svg(shapes, side, depth) {
   const turn = (p) => turns[side](p[0], p[1], depth).map(n).join(",");
   const [width, height] = side === "top" || side === "bottom" ? [LENGTH, depth] : [depth, LENGTH];
+  const opacity = (attribute, value) => (value < 1 ? ` ${attribute}="${Math.round(value * 100) / 100}"` : "");
   const body = shapes.map((s) => s.points
-    ? `<path d="M${s.points.map(turn).join("L")}Z"${s.opacity < 1 ? ` fill-opacity="${n(s.opacity * 100) / 100}"` : ""}/>`
-    : `<path d="M${turn(s.curve[0])}Q${turn(s.curve[1])} ${turn(s.curve[2])}" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="${n(s.width * 100) / 100}" stroke-opacity="${n(s.opacity * 100) / 100}"/>`).join("");
+    ? `<path d="M${turn(s.points[0])}L${s.points.slice(1).map(turn).join(" ")}Z"${opacity("fill-opacity", s.opacity)}/>`
+    : `<path d="${s.curves.map((c) => `M${turn(c[0])}Q${turn(c[1])} ${turn(c[2])}`).join("")}" fill="none" stroke="#fff" stroke-linecap="round" stroke-width=".35"${opacity("stroke-opacity", s.opacity)}/>`).join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="#fff">${body}</svg>`;
 }
 

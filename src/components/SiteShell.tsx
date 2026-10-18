@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { preload } from "react-dom";
 import { Clock } from "lucide-react";
 import { getSettings } from "@/features/content/repository";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
@@ -10,11 +9,17 @@ import { LocalTime } from "./LocalTime";
 import { ContactForm } from "@/features/contact/ContactForm";
 
 export async function SiteShell({ children }: { children: React.ReactNode }) {
-  preload("/forest.webp", { as: "image", fetchPriority: "high" });
   const [settings, t, locale] = await Promise.all([getSettings(), getDictionary(), getLocale()]);
   const [callBefore, callAfter] = t.shell.call.split("{em}");
   const [timeBefore, timeAfter] = fill(t.shell.localTime, { location: settings.location }).split("{time}");
-  return <div className="landscape"><a className="skip-link" href="#main">{t.shell.skip}</a><div className="paper"><div className="sheet">
+  return <div className="landscape">
+    {/* The forest and this screen size's paper edges, fetched with the page instead of after the stylesheet asks for them. React hoists these into <head>. */}
+    <link rel="preload" as="image" href="/forest.webp" fetchPriority="high" />
+    {[["left", "right", "(min-width: 601px)"], ["top", "bottom", "(max-width: 600px)"]].flatMap(([a, b, media]) => [a, b].flatMap((side) => [
+      <link key={`edge-${side}`} rel="preload" as="image" href={`/paper-edge-${side}.svg`} media={media} />,
+      <link key={`rim-${side}`} rel="preload" as="image" href={`/paper-rim-${side}.svg`} media={media} />,
+    ]))}
+    <a className="skip-link" href="#main">{t.shell.skip}</a><div className="paper"><div className="sheet">
     <Header locale={locale} labels={{ ...t.nav, theme: t.theme }} />
     <main id="main" className="main-content">{children}</main>
     <footer className="site-footer" id="contact">

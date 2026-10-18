@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
+import { DM_Sans, IBM_Plex_Mono, Inter } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { siteUrl } from "@/lib/env";
 import { getDictionary, getLocale } from "@/lib/i18n/server";
 import "./globals.css";
 
 const ICON_VERSION = 2;
+
+// Self-hosted at build time and preloaded; the size-matched fallbacks keep text from jumping when the real fonts arrive.
+// Only the Latin files are preloaded; Latin Extended (š, ž) still loads on demand when a page uses those letters.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-plex-mono" });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getDictionary();
@@ -20,5 +27,5 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang={await getLocale()} suppressHydrationWarning><body><Providers>{children}</Providers></body></html>;
+  return <html lang={await getLocale()} className={`${inter.variable} ${dmSans.variable} ${plexMono.variable}`} suppressHydrationWarning><body><Providers>{children}</Providers></body></html>;
 }
