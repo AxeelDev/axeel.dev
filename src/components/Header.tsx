@@ -13,8 +13,10 @@ export function Header({ locale, labels }: { locale: Locale; labels: HeaderLabel
     <Link prefetch className="wordmark" href="/" aria-label={labels.home}>ax<span>.</span></Link>
     <nav aria-label={labels.main}>
       {[['/projects', labels.work], ['/blog', labels.writing], ['/uses', labels.uses]].map(([href, label]) => <Link prefetch href={href} key={href} aria-current={path.startsWith(href) ? "page" : undefined}>{label}</Link>)}
+    </nav>
+    <div className="header-tools">
       <LanguageSwitcher locale={locale} label={labels.language} />
       <ThemeToggle labels={labels.theme} />
-    </nav>
+    </div>
   </header>;
 }
