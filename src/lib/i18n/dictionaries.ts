@@ -6,7 +6,7 @@ const en = {
   meta: { title: "Axel Püss — developer", description: "A developer in Estonia. Websites, tools, game experiments, and notes along the way.", projects: "Projects", writing: "Writing", uses: "Uses", projectNotFound: "Project not found", postNotFound: "Post not found" },
   nav: { home: "Axel, home", main: "Main navigation", work: "Work", writing: "Writing", uses: "Uses", language: "Language" },
   theme: { toLight: "Switch to light theme", toDark: "Switch to dark theme", change: "Change colour theme" },
-  shell: { skip: "Skip to content", call: "Building something, or just want to {em}?", callEm: "talk shop", localTime: "{location}, {time} right now.", colophon: "Next.js, Supabase & Cloudflare.", editor: "Editor" },
+  shell: { skip: "Skip to content", call: "I read every message. {em}", callEm: "Say hi.", callNote: "Whether it’s about work, a project, or something I’ve built.", localTime: "{location}, {time}", timeLabel: "Local time", colophon: "Next.js, Supabase & Cloudflare.", editor: "Editor" },
   home: { greeting: "Hi, I’m {name}", seeWork: "See what I’ve made", getInTouch: "Get in touch", madeTitle: "Things I’ve made", allProjects: "All projects", smallerOne: "+ 1 smaller thing", smallerOther: "+ {count} smaller things", smallerNote: "One-day builds, experiments, and things I made to learn something", writingTitle: "From the notebook", allWriting: "All writing", toolsTitle: "What I build with", fullList: "The full list", aboutTitle: "Away from the screen" },
   projects: {
     title: "Things I’ve made", intro: "The bigger projects first. Further down are the smaller ones: one-day builds, experiments, and things I made just to learn something.",
@@ -32,7 +32,7 @@ const et: Dictionary = {
   meta: { title: "Axel Püss — arendaja", description: "Arendaja Eestist. Veebilehed, tööriistad, mängukatsetused ja märkmed teel olles.", projects: "Projektid", writing: "Kirjutised", uses: "Tööriistad", projectNotFound: "Projekti ei leitud", postNotFound: "Postitust ei leitud" },
   nav: { home: "Axel, avaleht", main: "Peamenüü", work: "Tööd", writing: "Kirjutised", uses: "Tööriistad", language: "Keel" },
   theme: { toLight: "Lülitu heledale teemale", toDark: "Lülitu tumedale teemale", change: "Muuda värviteemat" },
-  shell: { skip: "Liigu sisu juurde", call: "Ehitad midagi või tahad lihtsalt {em}?", callEm: "asjast rääkida", localTime: "{location}, kell on praegu {time}.", colophon: "Next.js, Supabase & Cloudflare.", editor: "Toimetaja" },
+  shell: { skip: "Liigu sisu juurde", call: "Loen iga sõnumit. {em}", callEm: "Kirjuta julgelt.", callNote: "Olgu see töö, mõne projekti või minu tehtud asjade kohta.", localTime: "{location}, kell {time}", timeLabel: "Kohalik aeg", colophon: "Next.js, Supabase & Cloudflare.", editor: "Toimetaja" },
   home: { greeting: "Tere, mina olen {name}", seeWork: "Vaata, mida olen teinud", getInTouch: "Võta ühendust", madeTitle: "Asjad, mida olen teinud", allProjects: "Kõik projektid", smallerOne: "+ 1 väiksem asi", smallerOther: "+ {count} väiksemat asja", smallerNote: "Ühe päevaga valminud asjad, katsetused ja asjad, mille tegin millegi õppimiseks", writingTitle: "Märkmikust", allWriting: "Kõik kirjutised", toolsTitle: "Millega ma ehitan", fullList: "Terve nimekiri", aboutTitle: "Ekraanist eemal" },
   projects: {
     title: "Asjad, mida olen teinud", intro: "Kõigepealt suuremad projektid. Allpool on väiksemad: ühe päevaga valminud asjad, katsetused ja asjad, mille tegin lihtsalt millegi õppimiseks.",
@@ -57,7 +57,7 @@ const de: Dictionary = {
   meta: { title: "Axel Püss — Entwickler", description: "Ein Entwickler aus Estland. Websites, Tools, Spiele-Experimente und Notizen unterwegs.", projects: "Projekte", writing: "Notizen", uses: "Werkzeuge", projectNotFound: "Projekt nicht gefunden", postNotFound: "Beitrag nicht gefunden" },
   nav: { home: "Axel, Startseite", main: "Hauptnavigation", work: "Arbeiten", writing: "Notizen", uses: "Werkzeuge", language: "Sprache" },
   theme: { toLight: "Zum hellen Design wechseln", toDark: "Zum dunklen Design wechseln", change: "Farbschema ändern" },
-  shell: { skip: "Zum Inhalt springen", call: "Du baust etwas oder willst einfach {em}?", callEm: "fachsimpeln", localTime: "{location}, gerade {time} Uhr.", colophon: "Next.js, Supabase & Cloudflare.", editor: "Editor" },
+  shell: { skip: "Zum Inhalt springen", call: "Ich lese jede Nachricht. {em}", callEm: "Schreib einfach.", callNote: "Ob es um Arbeit geht, um ein Projekt oder um etwas, das ich gebaut habe.", localTime: "{location}, {time} Uhr", timeLabel: "Ortszeit", colophon: "Next.js, Supabase & Cloudflare.", editor: "Editor" },
   home: { greeting: "Hi, ich bin {name}", seeWork: "Sieh dir an, was ich gemacht habe", getInTouch: "Schreib mir", madeTitle: "Was ich gemacht habe", allProjects: "Alle Projekte", smallerOne: "+ 1 kleineres Projekt", smallerOther: "+ {count} kleinere Projekte", smallerNote: "An einem Tag Gebautes, Experimente und Dinge, die ich zum Lernen gemacht habe", writingTitle: "Aus dem Notizbuch", allWriting: "Alle Notizen", toolsTitle: "Womit ich baue", fullList: "Die ganze Liste", aboutTitle: "Abseits vom Bildschirm" },
   projects: {
     title: "Was ich gemacht habe", intro: "Zuerst die größeren Projekte. Weiter unten kommen die kleineren: an einem Tag Gebautes, Experimente und Dinge, die ich nur zum Lernen gemacht habe.",
